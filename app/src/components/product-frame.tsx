@@ -1,0 +1,73 @@
+import Image from "next/image";
+import manifest from "@/lib/screens-manifest.gen.json";
+
+/**
+ * A real product screenshot in a frame (website/docs/05 §5). The image comes
+ * from the capture pipeline (scripts/capture-screens.mjs) and can ONLY render
+ * through its manifest entry — an id with no entry throws at render, so a
+ * screen cannot appear without its provenance line. Captures are committed as
+ * taken; there is no prop to override the caption or the source.
+ *
+ * Theme swap: both variants are in the DOM, toggled by the `dark` class the
+ * theme bootstrap maintains — the screenshot follows the visitor's theme the
+ * way every token does.
+ */
+
+interface Variant {
+  file: string;
+  theme: string;
+  kind: string;
+  width: number;
+  height: number;
+}
+
+interface Screen {
+  id: string;
+  path: string;
+  caption: string;
+  variants: Variant[];
+}
+
+function requireVariant(screen: Screen, theme: string): Variant {
+  const v = screen.variants.find((x) => x.theme === theme && x.kind === "desktop");
+  if (!v) throw new Error(`capture "${screen.id}" has no desktop/${theme} variant`);
+  return v;
+}
+
+export function ProductFrame({ id }: { id: string }) {
+  const screen = (manifest.screens as Screen[]).find((s) => s.id === id);
+  if (!screen) {
+    throw new Error(
+      `no capture manifest entry for "${id}" — run scripts/capture-screens.mjs`,
+    );
+  }
+  const dark = requireVariant(screen, "dark");
+  const light = requireVariant(screen, "light");
+  const alt = `Screenshot of the AlphaEdge terminal: ${screen.caption}`;
+
+  return (
+    <figure data-capture-source={manifest.source}>
+      <div className="overflow-hidden rounded-xl border border-line bg-panel shadow-sm">
+        <Image
+          src={dark.file}
+          alt={alt}
+          width={dark.width}
+          height={dark.height}
+          sizes="(min-width: 1024px) 900px, 100vw"
+          className="hidden w-full dark:block"
+        />
+        <Image
+          src={light.file}
+          alt={alt}
+          width={light.width}
+          height={light.height}
+          sizes="(min-width: 1024px) 900px, 100vw"
+          className="w-full dark:hidden"
+        />
+      </div>
+      <figcaption className="mt-2 text-xs leading-relaxed text-ink-subtle">
+        {screen.caption} {manifest.source}
+      </figcaption>
+    </figure>
+  );
+}

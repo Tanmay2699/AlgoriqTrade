@@ -1,0 +1,28 @@
+{
+  "_generated_by": "website/app/scripts/capture-screens.mjs — do not edit by hand",
+  "captured_at": "2026-08-03T08:51:38.788Z",
+  "source": "Captured from the AlphaEdge terminal on a stub data feed — simulated data, not live quotes.",
+  "screens": [
+    {
+      "id": "options",
+      "path": "/options",
+      "caption": "The option chain — Black-76 IV and Greeks, PCR, Max Pain.",
+      "variants": [
+        {
+          "file": "/screens/options-desktop-dark.png",
+          "theme": "dark",
+          "kind": "desktop",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "file": "/screens/options-desktop-light.png",
+          "theme": "light",
+          "kind": "desktop",
+          "width": 1440,
+          "height": 900
+        }
+      ]
+    }
+  ]
+}

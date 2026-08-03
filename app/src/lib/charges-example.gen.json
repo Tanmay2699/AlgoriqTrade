@@ -1,0 +1,46 @@
+{
+  "_generated_by": "website/app/scripts/gen_charges_example.py \u2014 do not edit by hand",
+  "inputs": {
+    "scenario": "One intraday round trip (BUY + SELL)",
+    "notional_paise_per_side": 10000000,
+    "segment": "equity_intraday",
+    "exchange": "NSE",
+    "product": "MIS",
+    "trade_date": "2026-08-01"
+  },
+  "lines": [
+    {
+      "label": "Brokerage",
+      "buy_paise": 2000,
+      "sell_paise": 2000
+    },
+    {
+      "label": "STT",
+      "buy_paise": 0,
+      "sell_paise": 2500
+    },
+    {
+      "label": "Exchange transaction",
+      "buy_paise": 297,
+      "sell_paise": 297
+    },
+    {
+      "label": "SEBI fee",
+      "buy_paise": 10,
+      "sell_paise": 10
+    },
+    {
+      "label": "Stamp duty",
+      "buy_paise": 300,
+      "sell_paise": 0
+    },
+    {
+      "label": "GST",
+      "buy_paise": 415,
+      "sell_paise": 415
+    }
+  ],
+  "buy_total_paise": 3022,
+  "sell_total_paise": 5222,
+  "round_trip_total_paise": 8244
+}
