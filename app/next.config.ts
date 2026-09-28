@@ -52,14 +52,22 @@ async function headers() {
   return [{ source: "/:path*", headers: SECURITY_HEADERS }];
 }
 
-const nextConfig: NextConfig = {
-  // Same deployment shape as apps/web: a self-contained server bundle the
-  // Dockerfile copies and runs, promoted by digest (docs/07 §9).
-  output: "standalone",
+// Vercel packages the app itself and must trace from inside the cloned repo;
+// the standalone bundle and the monorepo tracing root are for the Docker
+// image only (on Vercel "../.." resolves outside the checkout and the build
+// fails at "Collecting build traces").
+const DOCKER_BUILD = !process.env.VERCEL;
 
-  // pnpm hoists to the repo root two levels up; without this the traced
-  // standalone bundle misses hoisted dependencies.
-  outputFileTracingRoot: path.join(import.meta.dirname, "../.."),
+const nextConfig: NextConfig = {
+  ...(DOCKER_BUILD && {
+    // Same deployment shape as apps/web: a self-contained server bundle the
+    // Dockerfile copies and runs, promoted by digest (docs/07 §9).
+    output: "standalone",
+
+    // pnpm hoists to the repo root two levels up; without this the traced
+    // standalone bundle misses hoisted dependencies.
+    outputFileTracingRoot: path.join(import.meta.dirname, "../.."),
+  }),
 
   headers,
 };
