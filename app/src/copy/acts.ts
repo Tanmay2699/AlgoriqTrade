@@ -119,12 +119,13 @@ export const COSTS_ACT = {
   lede:
     "The sandbox charges the full Indian stack on every executed order — " +
     "computed by the same engine the backtester and the ML cost controls " +
-    "import, so no two surfaces can disagree to the paisa. Here is one " +
-    "₹1,00,000 intraday round trip, computed by that engine: (CL-004)",
+    "import, so no two surfaces can disagree to the paisa. Pick a size and " +
+    "see each rupee — and how far the price has to move before you're even. (CL-004)",
   tableCaption:
-    "Illustration computed by packages/charges at build time — FY26 rate " +
-    "schedule, NSE equity intraday (MIS), ₹1,00,000 notional per side. When " +
-    "rates change, this table is regenerated, never edited.",
+    "FY26 rate schedule, NSE equity intraday (MIS). The ₹1 lakh figures are " +
+    "the engine's own generated example (packages/charges, at build time); " +
+    "the calculator's formulas are checked against it in CI, and when rates " +
+    "change the example is regenerated, never edited.",
   commodityNote:
     "MCX commodities pay CTT, not STT — a different statute and a separate " +
     "contract-note line — and agricultural contracts are CTT-exempt. The " +
@@ -288,7 +289,7 @@ export const AI_CHAT_ACT = {
   refusalLabel:
     "The refusal, word for word as it ships in the assistant's own copy:",
   refusalQuote:
-    "I can't answer that one, because it asks what you should do. AlphaEdge " +
+    "I can't answer that one, because it asks what you should do. Algoryq Trade " +
     "exists to publish research, not to advise individuals — whether a " +
     "trade suits you depends on your objectives, your finances and your " +
     "risk tolerance, none of which I know or am permitted to assess. What " +
@@ -431,7 +432,7 @@ export const LIVE_ACT = {
   title: "When you're ready for a real broker: four gates.",
   lede:
     "Paper is the product; live is the graduation. A real order can only " +
-    "leave AlphaEdge through four gates, checked together so none can be " +
+    "leave Algoryq Trade through four gates, checked together so none can be " +
     "skipped — and each refusal names the gate that stopped it. (CL-009)",
   steps: [
     {

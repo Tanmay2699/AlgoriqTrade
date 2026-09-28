@@ -8,15 +8,17 @@
 
 export const HERO = {
   eyebrow: "NSE · BSE · MCX · Currency · Mutual funds",
-  title: "The market is real. The money is virtual. The discipline is yours.",
+  title: "The market is real. The money is virtual.",
+  titleAccent: "The discipline is yours.",
   lede:
-    "AlphaEdge is a market-intelligence terminal and paper-trading platform for " +
+    "Algoryq Trade is a market-intelligence terminal and paper-trading platform for " +
     "Indian markets. Trade live prices with virtual money, pay every simulated " +
     "rupee of real-world charges, and build your process under an " +
     "institutional-grade risk engine — with AI research that a human analyst " +
     "must approve before anyone sees it.",
   primaryCta: { href: "/waitlist", label: "Join early access" },
   secondaryCta: { href: "/pricing", label: "See pricing" },
+  note: "Free tier: full sandbox on delayed data, honest charges, no card required.",
 } as const;
 
 // Trust strip: verifiable facts only (website/docs/03 act 2). No customer

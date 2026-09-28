@@ -10,11 +10,12 @@ import { ImageResponse } from "next/og";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-const BG = "#09090b";
-const INK = "#e4e4e7";
-const INK_MUTED = "#a1a1aa";
-const UP = "#34d399";
-const LINE = "#27272a";
+const BG = "#070b14";
+const INK = "#f8fafc";
+const INK_MUTED = "#a3b1c6";
+const ACCENT = "#3b82f6";
+const LINK = "#60a5fa";
+const LINE = "#1b2740";
 
 export function ogImage(headline: string, support: string): ImageResponse {
   return new ImageResponse(
@@ -32,20 +33,14 @@ export function ogImage(headline: string, support: string): ImageResponse {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <svg width="56" height="56" viewBox="0 0 64 64">
-            <rect width="64" height="64" rx="14" fill={BG} stroke={LINE} />
-            <path
-              d="M13 43 L26 27 L34 34 L51 16"
-              fill="none"
-              stroke={UP}
-              strokeWidth="6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <circle cx="51" cy="16" r="4" fill={UP} />
+          <svg width="56" height="56" viewBox="0 0 28 28">
+            <rect x="0.75" y="0.75" width="26.5" height="26.5" rx="7" fill="none" stroke={ACCENT} strokeWidth="1.5" />
+            <rect x="7" y="14" width="3" height="7" rx="1" fill={LINK} />
+            <rect x="12.5" y="10" width="3" height="11" rx="1" fill={LINK} />
+            <rect x="18" y="6" width="3" height="15" rx="1" fill={INK} />
           </svg>
           <div style={{ display: "flex", fontSize: 44, fontWeight: 700, color: INK }}>
-            Alpha<span style={{ color: UP }}>Edge</span>
+            Algoryq<span style={{ color: LINK, marginLeft: 12 }}>Trade</span>
           </div>
         </div>
 
@@ -53,9 +48,9 @@ export function ogImage(headline: string, support: string): ImageResponse {
           <div
             style={{
               fontSize: 64,
-              fontWeight: 700,
+              fontWeight: 600,
               color: INK,
-              lineHeight: 1.15,
+              lineHeight: 1.1,
               letterSpacing: -1,
               maxWidth: 980,
             }}

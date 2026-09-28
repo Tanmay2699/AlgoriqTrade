@@ -12,6 +12,8 @@
     "check:disclaimers": "node scripts/gen-disclaimers.mjs --check",
     "check:claims": "node scripts/check-claims.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "check:charges": "node scripts/check-charges.mjs",
+    "check:stats": "node scripts/check-stats.mjs",
     "e2e": "playwright test",
     "e2e:install": "playwright install --with-deps chromium"
   },

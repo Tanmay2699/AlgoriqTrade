@@ -1,3 +1,5 @@
+import { WithClaims } from "@/components/claims";
+
 /**
  * Stat tile (website/docs/05 §4, 04 §7.6): the consolidation of the
  * terminal's three near-identical KPI tiles, with the marketing-side rule
@@ -12,15 +14,25 @@ export interface StatTileProps {
   label: string;
   sub?: string;
   kind: "measured" | "budget";
+  /** Soft blue breathing ring — reserved for the numbers CI re-proves. */
+  featured?: boolean;
 }
 
-export function StatTile({ value, label, sub, kind }: StatTileProps) {
+export function StatTile({ value, label, sub, kind, featured = false }: StatTileProps) {
   return (
-    <div className="rounded-lg border border-line bg-panel p-5">
-      <p className="tabular text-3xl font-bold tracking-tight text-ink">{value}</p>
-      <p className="mt-1 text-sm font-medium text-ink">{label}</p>
-      {sub ? <p className="mt-1 text-xs leading-relaxed text-ink-muted">{sub}</p> : null}
-      <p className="mt-3 text-xs text-ink-subtle">
+    <div
+      className={`flex flex-col gap-2 rounded-[14px] bg-panel p-6 md:p-7 ${
+        featured ? "ae-pulse" : "border border-line"
+      }`}
+    >
+      <p className="ae-num text-4xl tracking-[-0.03em] text-ink-strong md:text-[44px]">{value}</p>
+      <p className="text-sm font-medium text-ink">{label}</p>
+      {sub ? (
+        <p className="text-xs leading-relaxed text-ink-muted">
+          <WithClaims text={sub} />
+        </p>
+      ) : null}
+      <p className="ae-num mt-auto pt-3 text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
         {kind === "measured" ? "Verified in code & CI" : "Budget — enforced target"}
       </p>
     </div>

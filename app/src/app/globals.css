@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* `dark:` follows the site theme (the `.dark` class theme-init.js stamps),
+   not the OS preference — Tailwind v4's default is the media query. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * Token layer — ported from apps/web/src/app/globals.css, which is the source
  * of truth for these values (website/docs/04 §2: product embeds must match the
@@ -23,6 +27,14 @@
   --color-warn: var(--ae-warn);
   --color-accent: var(--ae-accent);
   --color-accent-ink: var(--ae-accent-ink);
+  --color-accent-soft: var(--ae-accent-soft);
+  --color-accent-soft-ink: var(--ae-accent-soft-ink);
+  --color-link: var(--ae-link);
+  --color-ring: var(--ae-ring);
+  --color-sunk: var(--ae-sunk);
+  --color-ink-strong: var(--ae-text-strong);
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
 
   /* Soft pairs are two committed colours, never one colour at an opacity —
      apps/web measured the alpha-tint variants at 2.3–3.7:1; these pairs are
@@ -37,18 +49,26 @@
 
 /* Two independent axes, same as the terminal: `data-theme` (dark | light) and
    `data-cvd` (none | deutan). `color-scheme` makes native controls (selects,
-   scrollbars) follow the theme — the one-line WebKit fix apps/web documents. */
+   scrollbars) follow the theme — the one-line WebKit fix apps/web documents.
+
+   Dark + blue redesign: same --ae-* names, new values. Green and red now mean
+   price direction and nothing else; brand, CTAs, links and focus rings are
+   blue. Button fills use #2563eb (white on it is 5.2:1 — #3b82f6 fails AA
+   for label-size text), #3b82f6 is kept for rings/lines, #60a5fa for links
+   on dark. */
 :root,
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --ae-bg: #09090b;
-  --ae-panel: #18181b;
-  --ae-panel-raised: #27272a;
-  --ae-border: #27272a;
-  --ae-border-strong: #3f3f46;
-  --ae-text: #e4e4e7;
-  --ae-text-muted: #d4d4d8;
-  --ae-text-subtle: #a1a1aa;
+  --ae-bg: #070b14;
+  --ae-sunk: #0a1120;
+  --ae-panel: #0d1524;
+  --ae-panel-raised: #141f35;
+  --ae-border: #1b2740;
+  --ae-border-strong: #2c4a7a;
+  --ae-text-strong: #f8fafc;
+  --ae-text: #e6ecf5;
+  --ae-text-muted: #a3b1c6;
+  --ae-text-subtle: #8b98ad;
   --ae-up: #34d399;
   --ae-down: #f87171;
   --ae-warn: #f59e0b;
@@ -58,18 +78,35 @@
   --ae-down-ink: #fca5a5;
   --ae-warn-soft: #3a2a06;
   --ae-warn-ink: #fcd34d;
-  --ae-accent: #34d399;
-  --ae-accent-ink: #09090b;
-  --ae-chart-grid: #27272a;
+  --ae-accent: #2563eb;
+  --ae-accent-ink: #f8fafc;
+  --ae-accent-soft: #0f1d3a;
+  --ae-accent-soft-ink: #93c5fd;
+  --ae-link: #60a5fa;
+  --ae-link-hover: #93c5fd;
+  --ae-ring: #3b82f6;
+  --ae-glow: #60a5fa;
+  --ae-chart-grid: #1b2740;
+  --ae-grid-line: rgba(96, 165, 250, 0.05);
+  --ae-shadow: 0 30px 80px rgba(2, 6, 16, 0.6);
+  /* Liquid-glass nav: a translucent tint over the page, a specular top edge
+     and a soft drop. Values per theme so light mode stays legible. */
+  --ae-glass-tint: rgba(10, 17, 32, 0.55);
+  --ae-glass-edge: rgba(255, 255, 255, 0.1);
+  --ae-glass-hi: rgba(255, 255, 255, 0.14);
+  --ae-glass-sheen: rgba(255, 255, 255, 0.07);
+  --ae-glass-drop: 0 12px 40px rgba(2, 6, 16, 0.5);
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --ae-bg: #ffffff;
-  --ae-panel: #f6f7f9;
-  --ae-panel-raised: #eceef1;
-  --ae-border: #e5e7eb;
-  --ae-border-strong: #d1d5db;
+  --ae-bg: #f7f9fc;
+  --ae-sunk: #eef3fa;
+  --ae-panel: #ffffff;
+  --ae-panel-raised: #eef3fa;
+  --ae-border: #dbe3ef;
+  --ae-border-strong: #bfd3f5;
+  --ae-text-strong: #0b1220;
   --ae-text: #111827;
   --ae-text-muted: #374151;
   --ae-text-subtle: #4b5563;
@@ -82,14 +119,28 @@
   --ae-down-ink: #7f1d1d;
   --ae-warn-soft: #fef3c7;
   --ae-warn-ink: #78350f;
-  --ae-accent: #047857;
+  --ae-accent: #2563eb;
   --ae-accent-ink: #ffffff;
-  --ae-chart-grid: #e5e7eb;
+  --ae-accent-soft: #eef4ff;
+  --ae-accent-soft-ink: #1d4ed8;
+  --ae-link: #1d4ed8;
+  --ae-link-hover: #1e40af;
+  --ae-ring: #2563eb;
+  --ae-glow: #60a5fa;
+  --ae-chart-grid: #e5ebf3;
+  --ae-grid-line: rgba(37, 99, 235, 0.05);
+  --ae-shadow: 0 24px 60px rgba(15, 35, 80, 0.08);
+  --ae-glass-tint: rgba(255, 255, 255, 0.6);
+  --ae-glass-edge: rgba(15, 35, 80, 0.1);
+  --ae-glass-hi: rgba(255, 255, 255, 0.9);
+  --ae-glass-sheen: rgba(255, 255, 255, 0.5);
+  --ae-glass-drop: 0 12px 40px rgba(15, 35, 80, 0.1);
 }
 
 /* Colourblind-safe pair — swaps only up/down; `warn` amber stays distinct.
    Soft pairs respecified per theme (a dark soft under light mode would put
-   near-black behind dark ink). */
+   near-black behind dark ink). The deutan "up" is blue, so under data-cvd
+   the brand accent falls back to neutral — blue stays market data. */
 :root[data-cvd="deutan"] {
   --ae-up: #2563eb;
   --ae-down: #f97316;
@@ -101,6 +152,14 @@
   --ae-up-ink: #93c5fd;
   --ae-down-soft: #431407;
   --ae-down-ink: #fdba74;
+  --ae-accent: #f8fafc;
+  --ae-accent-ink: #070b14;
+  --ae-accent-soft: #1e293b;
+  --ae-accent-soft-ink: #e2e8f0;
+  --ae-link: #e2e8f0;
+  --ae-link-hover: #ffffff;
+  --ae-ring: #94a3b8;
+  --ae-glow: #94a3b8;
 }
 
 :root[data-theme="light"][data-cvd="deutan"] {
@@ -108,10 +167,72 @@
   --ae-up-ink: #1e3a8a;
   --ae-down-soft: #ffedd5;
   --ae-down-ink: #7c2d12;
+  --ae-accent: #111827;
+  --ae-accent-ink: #ffffff;
+  --ae-accent-soft: #e2e8f0;
+  --ae-accent-soft-ink: #111827;
+  --ae-link: #111827;
+  --ae-link-hover: #000000;
+  --ae-ring: #475569;
+}
+
+/* Geist + Geist Mono (OFL), self-hosted so font-src stays 'self'. Variable
+   files: one file covers every weight. latin-ext carries the ₹ sign. */
+@font-face {
+  font-family: "Geist";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+html {
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-padding-top: 96px;
+}
+body {
+  background: var(--ae-bg);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 }
 
 /* Numbers must not reflow: tabular numerals wherever a figure appears. */
 .tabular {
+  font-variant-numeric: tabular-nums;
+}
+.ae-num {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
@@ -212,7 +333,7 @@
   [role="switch"],
   [role="checkbox"]
 ):focus-visible {
-  outline: 2px solid var(--ae-accent);
+  outline: 2px solid var(--ae-ring);
   outline-offset: 2px;
 }
 
@@ -226,4 +347,1006 @@
 .ae-skip-link:focus {
   left: 0.5rem;
   top: 0.5rem;
+}
+
+/* ── Redesign building blocks ────────────────────────────────────────────
+   Shared classes rather than per-page class soup, so spacing and type stay
+   on one scale: 80px page gutters at 1440 (16px on phones), 110–120px act
+   rhythm, Geist 600 display at −0.035em, body 18/16/14 at 1.6. Layered as
+   components so a utility on the element still wins. */
+@layer components {
+  .ae-container {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 5.56vw, 80px);
+  }
+
+  .ae-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ae-link);
+  }
+  @media (min-width: 768px) {
+    .ae-eyebrow {
+      font-size: 13px;
+    }
+  }
+
+  .ae-h1 {
+    margin: 0;
+    font-size: clamp(38px, 3.2vw + 1rem, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--ae-text-strong);
+    text-wrap: balance;
+  }
+  .ae-h2 {
+    margin: 0;
+    font-size: clamp(32px, 2.2vw + 1rem, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    color: var(--ae-text-strong);
+    text-wrap: balance;
+  }
+  .ae-h3 {
+    margin: 0;
+    font-size: clamp(22px, 1vw + 1rem, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: var(--ae-text-strong);
+  }
+  .ae-lede {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ae-text-muted);
+  }
+  @media (min-width: 768px) {
+    .ae-lede {
+      font-size: 18px;
+    }
+  }
+
+  .ae-card {
+    border-radius: 16px;
+    border: 1px solid var(--ae-border);
+    background: var(--ae-panel);
+    padding: 24px;
+    transition: border-color 160ms ease;
+  }
+  @media (min-width: 768px) {
+    .ae-card {
+      padding: 32px;
+    }
+  }
+  .ae-card:hover {
+    border-color: var(--ae-border-strong);
+  }
+
+  .ae-btn,
+  .ae-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 52px;
+    padding: 0 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ae-btn {
+    background: var(--ae-accent);
+    color: var(--ae-accent-ink);
+    transition:
+      transform 140ms ease-out,
+      box-shadow 140ms ease-out;
+  }
+  .ae-btn:hover {
+    transform: scale(1.03);
+    box-shadow:
+      0 0 0 1px var(--ae-ring),
+      0 0 28px color-mix(in oklab, var(--ae-glow) 45%, transparent);
+  }
+  .ae-btn-ghost {
+    border: 1px solid var(--ae-border);
+    color: var(--ae-text);
+    font-weight: 500;
+    transition:
+      border-color 140ms,
+      background-color 140ms;
+  }
+  .ae-btn-ghost:hover {
+    border-color: var(--ae-ring);
+    background: var(--ae-panel);
+  }
+  .ae-btn-sm {
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .ae-link {
+    color: var(--ae-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--ae-link) 40%, transparent);
+    text-underline-offset: 3px;
+    transition: color 150ms;
+  }
+  .ae-link:hover {
+    color: var(--ae-link-hover);
+    text-decoration-color: currentColor;
+  }
+
+  /* Nav link: underline grows from the left with a soft blue glow. */
+  .ae-nl {
+    position: relative;
+    color: var(--ae-text-muted);
+    transition: color 150ms;
+  }
+  .ae-nl::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    height: 1px;
+    background: var(--ae-link);
+    box-shadow: 0 0 8px var(--ae-glow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 150ms ease-out;
+  }
+  .ae-nl:hover,
+  .ae-nl[aria-current="page"] {
+    color: var(--ae-text-strong);
+  }
+  .ae-nl:hover::after,
+  .ae-nl[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Liquid glass. Blur + saturation refracts what scrolls beneath; the
+     sheen gradient and inset edges fake the curved rim of a glass slab. A
+     browser without backdrop-filter gets an opaque bar, never a see-through
+     one with nothing to soften it. */
+  .ae-glass {
+    position: relative;
+    isolation: isolate;
+    border-radius: 18px;
+    border: 1px solid var(--ae-glass-edge);
+    background:
+      linear-gradient(180deg, var(--ae-glass-sheen), transparent 60%),
+      var(--ae-glass-tint);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--ae-glass-hi),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+      inset 0 0 20px rgba(255, 255, 255, 0.02),
+      var(--ae-glass-drop);
+  }
+  .ae-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      120% 140% at 12% -40%,
+      color-mix(in oklab, var(--ae-glow) 18%, transparent),
+      transparent 55%
+    );
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .ae-glass {
+      background: var(--ae-panel);
+    }
+  }
+
+  .ae-grid-tex {
+    background-image:
+      linear-gradient(var(--ae-grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ae-grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .ae-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid var(--ae-border-strong);
+    background: var(--ae-accent-soft);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ae-accent-soft-ink);
+  }
+
+  .ae-photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid var(--ae-border);
+    background: var(--ae-panel);
+  }
+  .ae-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    background: linear-gradient(
+      180deg,
+      transparent 55%,
+      color-mix(in oklab, var(--ae-bg) 55%, transparent)
+    );
+  }
+  .ae-photo img {
+    transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js [data-reveal] .ae-photo img {
+    transform: scale(1.06);
+  }
+  .js [data-reveal].is-in .ae-photo img {
+    transform: none;
+  }
+}
+
+/* ── Motion (spec: explains, never decorates; transform + opacity only) ── */
+
+/* Hero aurora: a breathing blue glow behind the terminal, at most 12%. */
+.ae-aurora {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.12;
+  background: radial-gradient(
+    closest-side,
+    var(--ae-glow),
+    color-mix(in oklab, var(--ae-ring) 50%, transparent) 55%,
+    transparent
+  );
+  filter: blur(36px);
+  animation: ae-aurora 8s ease-in-out infinite;
+}
+@keyframes ae-aurora {
+  0%,
+  100% {
+    transform: translate3d(-2%, 1%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -4%, 0) scale(1.08);
+  }
+}
+
+/* Featured stats + primary CTA: a slow blue breathing ring. */
+.ae-pulse {
+  animation: ae-pulse 3.2s ease-in-out infinite;
+}
+@keyframes ae-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px var(--ae-border),
+      0 0 0 transparent;
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px var(--ae-border-strong),
+      0 0 32px color-mix(in oklab, var(--ae-glow) 22%, transparent);
+  }
+}
+
+/* Hero entrance: 12px rise, 70ms stagger. Runs once on load; reduced motion
+   collapses it to the final frame via the blanket rule above. */
+.ae-rise {
+  animation: ae-rise-in 300ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.ae-d1 {
+  animation-delay: 70ms;
+}
+.ae-d2 {
+  animation-delay: 140ms;
+}
+.ae-d3 {
+  animation-delay: 210ms;
+}
+
+/* SVG draw-on (the hero EMA line). */
+.ae-draw {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 0;
+  animation: ae-draw 1600ms cubic-bezier(0.2, 0.7, 0.2, 1) 300ms both;
+}
+@keyframes ae-draw {
+  from {
+    stroke-dashoffset: 1400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Connector lines between steps draw left to right the first time their
+   section scrolls in. Hidden only under the same `.js` marker as reveals. */
+.ae-connector {
+  transform-origin: left;
+}
+.js [data-reveal] .ae-connector {
+  transform: scaleX(0);
+}
+.js [data-reveal].is-in .ae-connector {
+  transform: none;
+  transition: transform 1400ms cubic-bezier(0.2, 0.7, 0.2, 1) 200ms;
+}
+
+/* Grid stagger inside a revealed section: children rise 70ms apart. */
+.js [data-reveal] [data-stagger] > * {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.js [data-reveal].is-in [data-stagger] > * {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js [data-reveal].is-in [data-stagger] > :nth-child(2) {
+  transition-delay: 70ms;
+}
+.js [data-reveal].is-in [data-stagger] > :nth-child(3) {
+  transition-delay: 140ms;
+}
+.js [data-reveal].is-in [data-stagger] > :nth-child(4) {
+  transition-delay: 210ms;
+}
+.js [data-reveal].is-in [data-stagger] > :nth-child(n + 5) {
+  transition-delay: 280ms;
+}
+
+/* ── Loops: tables and diagrams that play like short muted videos ────────
+   Every loop lives under a [data-loop] element. theme-init.js toggles
+   .is-playing while it is on screen, so offscreen loops cost nothing. Rules:
+   transform/opacity where possible; the element's base style is always its
+   true resting state, so reduced motion (which collapses every animation to
+   one instant) and no-JS show honest, complete visuals. */
+.js [data-loop]:not(.is-playing),
+.js [data-loop]:not(.is-playing) *,
+.js [data-loop]:not(.is-playing) *::before,
+.js [data-loop]:not(.is-playing) *::after {
+  animation-play-state: paused !important;
+}
+
+/* 1. Product capture: a slow camera move over the real screenshot — push in
+      on the calls, drift across to the puts, pull back — with a scan line.
+      The pixels are the capture's; only the camera moves. */
+.ae-cam-inner {
+  transform-origin: 50% 45%;
+  animation: ae-cam 22s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes ae-cam {
+  0%,
+  6% {
+    transform: none;
+  }
+  30% {
+    transform: scale(1.4) translate(14%, 4%);
+  }
+  40% {
+    transform: scale(1.4) translate(14%, 4%);
+  }
+  62% {
+    transform: scale(1.4) translate(-14%, 2%);
+  }
+  72% {
+    transform: scale(1.4) translate(-14%, 2%);
+  }
+  88% {
+    transform: scale(1.2) translate(0, -2%);
+  }
+  100% {
+    transform: none;
+  }
+}
+.ae-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 92%,
+    color-mix(in oklab, var(--ae-glow) 16%, transparent) 99%,
+    color-mix(in oklab, var(--ae-glow) 70%, transparent) 100%
+  );
+  animation: ae-scan 5.5s linear infinite;
+}
+@keyframes ae-scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* 2. Quota table: a tier spotlight that walks Free → Pro → Elite →
+      Institutional, and a CSS-only tier selector (radios + :has) that takes
+      over the moment a visitor picks one. No JavaScript. */
+.ae-tiers [data-col] {
+  animation: ae-col-spot 12s ease-in-out infinite;
+  animation-delay: calc(var(--c) * 3s);
+  transition:
+    background-color 200ms,
+    color 200ms;
+}
+@keyframes ae-col-spot {
+  0% {
+    background-color: transparent;
+  }
+  3%,
+  22% {
+    background-color: var(--ae-accent-soft);
+    color: var(--ae-text-strong);
+  }
+  25%,
+  100% {
+    background-color: transparent;
+  }
+}
+.ae-tier-thumb {
+  animation: ae-tier-thumb 12s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+  transition: transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes ae-tier-thumb {
+  0%,
+  22% {
+    transform: translateX(0);
+  }
+  25%,
+  47% {
+    transform: translateX(100%);
+  }
+  50%,
+  72% {
+    transform: translateX(200%);
+  }
+  75%,
+  97% {
+    transform: translateX(300%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.ae-tiers:has(input:checked) [data-col],
+.ae-tiers:has(input:checked) .ae-tier-thumb {
+  animation: none;
+}
+.ae-tiers:has(#tier-0:checked) .ae-tier-thumb {
+  transform: translateX(0);
+}
+.ae-tiers:has(#tier-1:checked) .ae-tier-thumb {
+  transform: translateX(100%);
+}
+.ae-tiers:has(#tier-2:checked) .ae-tier-thumb {
+  transform: translateX(200%);
+}
+.ae-tiers:has(#tier-3:checked) .ae-tier-thumb {
+  transform: translateX(300%);
+}
+.ae-tiers:has(#tier-0:checked) [data-col="0"],
+.ae-tiers:has(#tier-1:checked) [data-col="1"],
+.ae-tiers:has(#tier-2:checked) [data-col="2"],
+.ae-tiers:has(#tier-3:checked) [data-col="3"] {
+  background-color: var(--ae-accent-soft);
+  color: var(--ae-text-strong);
+}
+.ae-tiers input:checked + label {
+  color: var(--ae-text-strong);
+}
+.ae-tiers input:focus-visible + label {
+  outline: 2px solid var(--ae-ring);
+  outline-offset: 2px;
+}
+/* With no thumb animation (reduced motion) the thumb would sit on Free and
+   imply a choice nobody made; hide it until someone picks. */
+@media (prefers-reduced-motion: reduce) {
+  .ae-tiers:not(:has(input:checked)) .ae-tier-thumb {
+    opacity: 0;
+  }
+}
+
+/* 3. Comparison table: a highlighter marks our column row by row. */
+.ae-mark {
+  position: relative;
+  isolation: isolate;
+}
+.ae-mark::before {
+  content: "";
+  position: absolute;
+  inset: 6px 8px;
+  z-index: -1;
+  border-radius: 8px;
+  background: var(--ae-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--ae-border-strong);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  animation: ae-mark 10s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+  animation-delay: calc(var(--r) * 2s);
+}
+@keyframes ae-mark {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  6% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  18% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  24%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* 4. Flow diagrams: a signal walks the stages; each node lights as it
+      arrives and a dot rides every connector. */
+.ae-flow-node {
+  animation: ae-flow-node calc(var(--n) * 0.9s + 1.2s) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.9s);
+}
+@keyframes ae-flow-node {
+  0% {
+    border-color: var(--ae-border);
+    box-shadow: none;
+  }
+  5%,
+  16% {
+    border-color: var(--ae-ring);
+    box-shadow: 0 0 24px color-mix(in oklab, var(--ae-glow) 28%, transparent);
+  }
+  30%,
+  100% {
+    border-color: var(--ae-border);
+    box-shadow: none;
+  }
+}
+.ae-flow-dot {
+  opacity: 0;
+  animation: ae-flow-dot calc(var(--n) * 0.9s + 1.2s) linear infinite;
+  animation-delay: calc(var(--i) * 0.9s + 0.45s);
+}
+@keyframes ae-flow-dot {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  9% {
+    transform: translateX(22px);
+    opacity: 1;
+  }
+  10%,
+  100% {
+    transform: translateX(22px);
+    opacity: 0;
+  }
+}
+
+/* 5. Claims ledger: a verification scan sweeps the table; each row's
+      status dot answers as it passes. */
+.ae-ledger-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 96%,
+    color-mix(in oklab, var(--ae-glow) 10%, transparent) 99.4%,
+    color-mix(in oklab, var(--ae-glow) 60%, transparent) 100%
+  );
+  animation: ae-scan 14s linear infinite;
+}
+.ae-ledger-dot {
+  animation: ae-ledger-dot 14s linear infinite;
+  animation-delay: calc(var(--i) / var(--n) * 14s);
+}
+@keyframes ae-ledger-dot {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--ae-glow) 70%, transparent);
+    transform: scale(1.6);
+  }
+  6% {
+    box-shadow: 0 0 0 7px transparent;
+    transform: none;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    transform: none;
+  }
+}
+
+/* 6. CI gates list: each gate runs in turn — a progress line fills under
+      the row, then its dot settles. */
+.ae-gate-run {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: ae-gate-run calc(var(--n) * 1.1s + 1.4s) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: calc(var(--i) * 1.1s);
+}
+@keyframes ae-gate-run {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  12% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  20%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+.ae-gate-dot {
+  animation: ae-gate-dot calc(var(--n) * 1.1s + 1.4s) ease-out infinite;
+  animation-delay: calc(var(--i) * 1.1s);
+}
+@keyframes ae-gate-dot {
+  0%,
+  11% {
+    background: transparent;
+  }
+  13%,
+  100% {
+    background: var(--ae-link);
+  }
+}
+
+/* 7. Heatmap: light rakes diagonally across the tiles; the direction glyphs
+      nudge the way they point. */
+.ae-tile {
+  position: relative;
+  overflow: hidden;
+}
+.ae-tile::after {
+  content: "";
+  position: absolute;
+  inset: -40% -60%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 40%,
+    color-mix(in oklab, #ffffff 14%, transparent) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  animation: ae-rake 6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.18s);
+}
+@keyframes ae-rake {
+  0% {
+    transform: translateX(-100%);
+  }
+  30%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+.ae-tick-up,
+.ae-tick-down {
+  display: inline-block;
+  animation: ae-tick-up 3s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+.ae-tick-down {
+  animation-name: ae-tick-down;
+}
+@keyframes ae-tick-up {
+  0%,
+  70%,
+  100% {
+    transform: none;
+  }
+  80% {
+    transform: translateY(-2px);
+  }
+}
+@keyframes ae-tick-down {
+  0%,
+  70%,
+  100% {
+    transform: none;
+  }
+  80% {
+    transform: translateY(2px);
+  }
+}
+
+/* 8. Research pipeline: one run per loop — gate, fan-out, analysts,
+      fan-in, each stage in turn, then the RA seal. 7.2s cycle, 1.2s/step. */
+.ae-rp-node {
+  animation: ae-rp-node 7.2s ease-in-out infinite;
+  animation-delay: calc(var(--s) * 1.2s);
+}
+@keyframes ae-rp-node {
+  0% {
+    border-color: var(--ae-border);
+    box-shadow: none;
+  }
+  4%,
+  13% {
+    border-color: var(--ae-ring);
+    box-shadow: 0 0 28px color-mix(in oklab, var(--ae-glow) 26%, transparent);
+  }
+  22%,
+  100% {
+    border-color: var(--ae-border);
+    box-shadow: none;
+  }
+}
+.ae-rp-analyst {
+  animation: ae-rp-analyst 7.2s ease-in-out infinite;
+  animation-delay: calc(1.2s + var(--i) * 90ms);
+}
+@keyframes ae-rp-analyst {
+  0% {
+    border-color: var(--ae-border);
+    transform: none;
+  }
+  4%,
+  12% {
+    border-color: var(--ae-ring);
+    transform: translateX(3px);
+  }
+  20%,
+  100% {
+    border-color: var(--ae-border);
+    transform: none;
+  }
+}
+/* Screen-pixel dashes (non-scaling-stroke): one 16px pulse, a gap longer
+   than any curve so the pattern never repeats on screen. */
+.ae-rp-fan-out,
+.ae-rp-fan-in {
+  stroke-dasharray: 16 600;
+  stroke-dashoffset: 16;
+  animation: ae-rp-fan 7.2s linear infinite;
+  animation-delay: calc(0.6s + var(--i) * 40ms);
+}
+.ae-rp-fan-in {
+  animation-delay: calc(1.95s + var(--i) * 40ms);
+}
+@keyframes ae-rp-fan {
+  0% {
+    stroke-dashoffset: 16;
+  }
+  9%,
+  100% {
+    stroke-dashoffset: -160;
+  }
+}
+.ae-rp-link {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: ae-rp-link 7.2s ease-out infinite;
+  animation-delay: calc(var(--s) * 1.2s - 0.45s);
+}
+@keyframes ae-rp-link {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  7% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  14%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+.ae-rp-seal {
+  animation: ae-rp-seal 7.2s ease-out infinite;
+  animation-delay: 6s;
+}
+@keyframes ae-rp-seal {
+  0% {
+    transform: scale(0.9);
+    background: var(--ae-bg);
+    color: var(--ae-link);
+  }
+  6% {
+    transform: scale(1.08);
+    background: var(--ae-accent);
+    color: var(--ae-accent-ink);
+    box-shadow: 0 0 28px color-mix(in oklab, var(--ae-glow) 50%, transparent);
+  }
+  14%,
+  100% {
+    transform: none;
+    background: var(--ae-bg);
+    color: var(--ae-link);
+    box-shadow: none;
+  }
+}
+
+/* 9. Audit chain: blocks link one by one; each hash stamps as it lands. */
+.ae-chain-block {
+  animation: ae-chain-block 6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+@keyframes ae-chain-block {
+  0% {
+    border-color: var(--ae-border);
+    box-shadow: none;
+    transform: none;
+  }
+  5% {
+    transform: translateY(-3px);
+  }
+  6%,
+  16% {
+    border-color: var(--ae-ring);
+    box-shadow: 0 0 24px color-mix(in oklab, var(--ae-glow) 26%, transparent);
+    transform: none;
+  }
+  28%,
+  100% {
+    border-color: var(--ae-border);
+    box-shadow: none;
+  }
+}
+.ae-chain-hash {
+  animation: ae-chain-hash 6s ease-out infinite;
+  animation-delay: calc(var(--i, 0) * 1.2s + 0.25s);
+}
+@keyframes ae-chain-hash {
+  0% {
+    color: var(--ae-text-strong);
+    text-shadow: 0 0 12px var(--ae-glow);
+  }
+  12%,
+  100% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+.ae-chain-link {
+  overflow: hidden;
+}
+.ae-chain-link::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+  background: var(--ae-glow);
+  box-shadow: 0 0 10px var(--ae-glow);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: ae-rp-link 6s ease-out infinite;
+  animation-delay: calc(var(--i) * 1.2s - 0.35s);
+}
+
+/* 10. Interval example: the band opens from its centre, the point lands. */
+.ae-ci-band {
+  transform-origin: center;
+  animation: ae-ci-band 6s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+@keyframes ae-ci-band {
+  0% {
+    transform: scaleX(0);
+  }
+  22%,
+  100% {
+    transform: none;
+  }
+}
+.ae-ci-point {
+  animation: ae-ci-point 6s ease-out infinite;
+}
+@keyframes ae-ci-point {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  12%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* 11. Evidence window: work in progress, shown as motion — not a number. */
+.ae-evidence-sweep {
+  animation: ae-sweep 2.8s ease-in-out infinite;
+}
+@keyframes ae-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+.ae-status-ping {
+  opacity: 0;
+  animation: ae-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ae-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  80%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Calculator: rows flash in sequence when the numbers change. */
+.ae-calc-rows tr {
+  animation: ae-row-flash 700ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+@keyframes ae-row-flash {
+  from {
+    background-color: color-mix(in oklab, var(--ae-glow) 12%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.ae-skeleton {
+  animation: ae-skeleton 1.4s ease-in-out infinite;
+}
+@keyframes ae-skeleton {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Stacked-bar segments for the calculator. Under deutan the blues belong to
+   market data, so the segments go slate. */
+:root {
+  --ae-seg-1: #1d4ed8;
+  --ae-seg-2: #3b82f6;
+  --ae-seg-3: #60a5fa;
+  --ae-seg-4: #93c5fd;
+  --ae-seg-5: #bfdbfe;
+  --ae-seg-6: #64748b;
+}
+:root[data-cvd="deutan"] {
+  --ae-seg-1: #334155;
+  --ae-seg-2: #475569;
+  --ae-seg-3: #64748b;
+  --ae-seg-4: #94a3b8;
+  --ae-seg-5: #cbd5e1;
+  --ae-seg-6: #e2e8f0;
 }

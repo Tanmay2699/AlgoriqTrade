@@ -40,6 +40,7 @@ try {
   ) {
     document.documentElement.classList.add("js");
     document.addEventListener("DOMContentLoaded", function () {
+      // Reveals: once per element.
       var io = new IntersectionObserver(
         function (entries) {
           for (var i = 0; i < entries.length; i++) {
@@ -51,8 +52,36 @@ try {
         },
         { threshold: 0.1 },
       );
-      var els = document.querySelectorAll("[data-reveal]");
-      for (var j = 0; j < els.length; j++) io.observe(els[j]);
+      // Loops (animated tables and diagrams): play only while on screen, so
+      // twenty looping visuals cost what the one in view costs.
+      var loops = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          entries[i].target.classList.toggle("is-playing", entries[i].isIntersecting);
+        }
+      });
+      var bind = function (root) {
+        if (!root.querySelectorAll) return;
+        var r = root.querySelectorAll("[data-reveal]:not(.is-in)");
+        for (var j = 0; j < r.length; j++) io.observe(r[j]);
+        var l = root.querySelectorAll("[data-loop]");
+        for (var k = 0; k < l.length; k++) loops.observe(l[k]);
+      };
+      bind(document);
+      // Client-side navigation swaps page content without a new
+      // DOMContentLoaded; without this, a route entered via <Link> would
+      // keep its sections hidden.
+      new MutationObserver(function (records) {
+        for (var m = 0; m < records.length; m++) {
+          var added = records[m].addedNodes;
+          for (var n = 0; n < added.length; n++) {
+            if (added[n].nodeType === 1) {
+              bind(added[n]);
+              if (added[n].matches && added[n].matches("[data-reveal]")) io.observe(added[n]);
+              if (added[n].matches && added[n].matches("[data-loop]")) loops.observe(added[n]);
+            }
+          }
+        }
+      }).observe(document.body, { childList: true, subtree: true });
     });
   }
 } catch (e) {}

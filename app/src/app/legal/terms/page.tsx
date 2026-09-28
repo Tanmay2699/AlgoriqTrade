@@ -3,16 +3,16 @@ import { CounselPending, LegalShell } from "../_shared";
 
 export const metadata: Metadata = {
   title: "Terms of use",
-  description: "Terms of use for the AlphaEdge platform.",
+  description: "Terms of use for the Algoryq Trade platform.",
 };
 
 export default function TermsPage() {
   return (
     <LegalShell title="Terms of use">
       <CounselPending />
-      <h2>What AlphaEdge is</h2>
+      <h2>What Algoryq Trade is</h2>
       <p>
-        AlphaEdge is a market-intelligence and paper-trading platform. It is not a
+        Algoryq Trade is a market-intelligence and paper-trading platform. It is not a
         stock broker, not a depository participant, and it does not hold client funds
         or securities. Sandbox trading uses virtual money only: no real orders are
         placed and no real funds are at risk.
@@ -28,7 +28,7 @@ export default function TermsPage() {
       <p>
         Where a live broker connection is offered, it is disabled by default and
         requires your explicit, versioned consent, step-up authentication, and a
-        manual confirmation for every individual order. AlphaEdge never sees or
+        manual confirmation for every individual order. Algoryq Trade never sees or
         stores your broker password. Orders you confirm are executed by your broker
         under your agreement with them.
       </p>

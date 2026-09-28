@@ -11,8 +11,8 @@ const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "AlphaEdge — market intelligence & paper trading for Indian markets",
-    template: "%s — AlphaEdge",
+    default: "Algoryq Trade — market intelligence & paper trading for Indian markets",
+    template: "%s — Algoryq Trade",
   },
   description:
     "Trade NSE, BSE and MCX with live data and virtual money. Honest fills, the full " +
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 const ORG_JSONLD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "AlphaEdge",
+  name: "Algoryq Trade",
   url: SITE_URL,
   description:
     "Market intelligence and paper-trading platform for Indian markets (NSE, BSE, MCX, currency derivatives, mutual funds).",
@@ -41,7 +41,7 @@ const ORG_JSONLD = {
 
 export const viewport: Viewport = {
   // Matches --ae-bg dark; the browser chrome should not flash white either.
-  themeColor: "#09090b",
+  themeColor: "#070b14",
 };
 
 /**
@@ -58,13 +58,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* eslint-disable-next-line @next/next/no-sync-scripts -- blocking by
             design: it must run before first paint or the theme flashes. */}
         <script src="/theme-init.js" />
+        {/* The two latin faces render the fold; latin-ext (₹) loads on use. */}
+        <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossOrigin="" />
+        <link rel="preload" href="/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body className="min-h-screen bg-surface text-ink antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}
         />
-        <a href="#main" className="ae-skip-link rounded bg-panel px-3 py-2 text-sm text-ink">
+        <a href="#main" className="ae-skip-link rounded-2xl bg-panel px-3 py-2 text-sm text-ink">
           Skip to content
         </a>
         <SiteNav />

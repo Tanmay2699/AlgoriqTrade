@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Metadata } from "next";
+import { Photo } from "@/components/photo";
 import Link from "next/link";
 import { FlowDiagram } from "@/components/flow-diagram";
 
@@ -20,7 +21,7 @@ import { FlowDiagram } from "@/components/flow-diagram";
 export const metadata: Metadata = {
   title: "How it's built",
   description:
-    "The engineering behind AlphaEdge: CI-enforced invariants, the compliance and " +
+    "The engineering behind Algoryq Trade: CI-enforced invariants, the compliance and " +
     "data gates that run on every change, and the full claims ledger mapping every " +
     "marketing claim to the code that keeps it true.",
 };
@@ -121,59 +122,78 @@ export default function HowItsBuiltPage() {
   const ledger = loadLedger();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl">
+    <div className="ae-container py-14 md:py-20">
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <h1 className="ae-h1 max-w-4xl">
         Built like it has to be right.
       </h1>
-      <p className="mt-3 max-w-2xl text-ink-muted">
+      <p className="ae-lede mt-6 max-w-3xl">
         Marketing pages usually ask for trust. This one shows its working: the
         invariants our continuous integration enforces, the gates that run on every
         change, and the ledger that maps each claim on this site to the code that
         keeps it true.
       </p>
+        </div>
+        <Photo k="paperNotebook" className="lg:col-span-5" priority />
+      </div>
 
-      <section aria-labelledby="invariants-title" className="mt-14">
-        <h2 id="invariants-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="invariants-title" className="mt-16 md:mt-24">
+        <h2 id="invariants-title" className="ae-h3">
           Six invariants, enforced by CI — not by intentions
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           Five were baked in from day one; the sixth was added the day it was needed.
           Each exists because the failure it prevents is silent, and each has a check
           that fails the build when it is violated.
         </p>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {INVARIANTS.map((inv) => (
-            <div key={inv.title} className="rounded-lg border border-line bg-panel p-5">
-              <h3 className="text-sm font-semibold text-ink">{inv.title}</h3>
+            <div key={inv.title} className="rounded-2xl border border-line bg-panel p-6">
+              <h3 className="text-base font-semibold text-ink-strong">{inv.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">{inv.body}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="gates-title" className="mt-14">
-        <h2 id="gates-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="gates-title" className="mt-16 md:mt-24">
+        <h2 id="gates-title" className="ae-h3">
           The gates that run on every change
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           Each is a runnable module — the same command works on a laptop and in CI.
           None of them can be skipped on the way to a deploy.
         </p>
-        <dl className="mt-6 divide-y divide-line rounded-lg border border-line bg-panel">
-          {GATES.map((g) => (
-            <div key={g.cmd} className="grid gap-1 px-5 py-3.5 sm:grid-cols-[16rem_1fr] sm:gap-6">
-              <dt className="font-mono text-xs text-up">python -m {g.cmd}</dt>
+        {/* Motion: the gates run in turn, like a pipeline view — a line fills
+            under each row, then its dot settles. */}
+        <dl
+          data-loop
+          className="mt-6 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-panel"
+          style={{ "--n": GATES.length } as React.CSSProperties}
+        >
+          {GATES.map((g, i) => (
+            <div
+              key={g.cmd}
+              className="relative grid gap-1 px-5 py-4 sm:grid-cols-[18rem_1fr] sm:gap-6"
+              style={{ "--i": i } as React.CSSProperties}
+            >
+              <dt className="ae-num flex items-center gap-3 text-xs text-link">
+                <span aria-hidden="true" className="ae-gate-dot h-2 w-2 shrink-0 rounded-full border border-link bg-link" />
+                python -m {g.cmd}
+              </dt>
               <dd className="text-sm leading-relaxed text-ink-muted">{g.what}</dd>
+              <span aria-hidden="true" className="ae-gate-run absolute inset-x-0 bottom-0 h-px bg-link shadow-[0_0_8px_var(--ae-glow)]" />
             </div>
           ))}
         </dl>
       </section>
 
-      <section aria-labelledby="audit-title" className="mt-14">
-        <h2 id="audit-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="audit-title" className="mt-16 md:mt-24">
+        <h2 id="audit-title" className="ae-h3">
           The audit chain a research call lives on
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           Every step lands on a hash-linked, append-only record before anything is
           served, and the chain is re-verified on read. Deleting a bad call is not an
           operation the system has. (CL-007, CL-010)
@@ -193,11 +213,11 @@ export default function HowItsBuiltPage() {
         </div>
       </section>
 
-      <section aria-labelledby="stack-title" className="mt-14">
-        <h2 id="stack-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="stack-title" className="mt-16 md:mt-24">
+        <h2 id="stack-title" className="ae-h3">
           The stack, end to end
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           As architected and declared in code — the same layout the 52 infrastructure
           checks lint on every change. The cloud deployment has not yet been applied,
           and we say so rather than borrow credibility from a logo. (CL-013)
@@ -217,11 +237,11 @@ export default function HowItsBuiltPage() {
         </div>
       </section>
 
-      <section aria-labelledby="ledger-title" className="mt-14">
-        <h2 id="ledger-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="ledger-title" className="mt-16 md:mt-24">
+        <h2 id="ledger-title" className="ae-h3">
           The claims ledger, in full
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           Every claim id used on this site resolves to a row here, and a CI check
           fails if one ever doesn&apos;t — or if a receipt file stops existing. This table
           is rendered from the ledger itself at build time, pending rows included: a
@@ -231,37 +251,54 @@ export default function HowItsBuiltPage() {
           tabIndex={0}
           role="region"
           aria-label="Claims ledger: claim, receipt and verification status"
-          className="mt-6 overflow-x-auto rounded-lg border border-line"
+          className="mt-6 overflow-x-auto rounded-2xl border border-line"
         >
+          {/* Motion: a verification scan sweeps the ledger; each verified
+              row's dot answers as it passes. Statuses are the ledger's own. */}
+          <div data-loop className="relative">
           <table className="w-full min-w-[880px] border-collapse text-sm">
-            <caption className="sr-only">
-              All marketing claims with their code receipts and verification status
-            </caption>
-            <thead>
-              <tr className="border-b border-line bg-panel text-left">
-                <th scope="col" className="px-4 py-2.5 font-medium text-ink">Id</th>
-                <th scope="col" className="px-4 py-2.5 font-medium text-ink">Claim</th>
-                <th scope="col" className="px-4 py-2.5 font-medium text-ink">Receipt</th>
-                <th scope="col" className="px-4 py-2.5 font-medium text-ink">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ledger.map((row) => (
-                <tr key={row.id} className="border-b border-line align-top last:border-b-0">
-                  <th scope="row" className="tabular px-4 py-2.5 text-left font-mono text-xs font-normal text-ink">
-                    {row.id}
-                  </th>
-                  <td className="px-4 py-2.5 text-ink-muted">{row.claim.replaceAll("**", "")}</td>
-                  <td className="px-4 py-2.5 font-mono text-xs text-ink-muted">
-                    {row.receipt.replaceAll("`", "").replaceAll("**", "")}
-                  </td>
-                  <td className="px-4 py-2.5 text-xs text-ink-muted">
-                    {row.status.replaceAll("**", "")}
-                  </td>
+              <caption className="sr-only">
+                All marketing claims with their code receipts and verification status
+              </caption>
+              <thead>
+                <tr className="border-b border-line bg-panel text-left">
+                  <th scope="col" className="px-4 py-2.5 font-medium text-ink">Id</th>
+                  <th scope="col" className="px-4 py-2.5 font-medium text-ink">Claim</th>
+                  <th scope="col" className="px-4 py-2.5 font-medium text-ink">Receipt</th>
+                  <th scope="col" className="px-4 py-2.5 font-medium text-ink">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {ledger.map((row, i) => (
+                  <tr
+                    key={row.id}
+                    className="border-b border-line align-top transition-colors last:border-b-0 hover:bg-panel"
+                    style={{ "--i": i, "--n": ledger.length } as React.CSSProperties}
+                  >
+                    <th scope="row" className="tabular px-4 py-2.5 text-left ae-num text-xs font-normal text-ink">
+                      {row.id}
+                    </th>
+                    <td className="px-4 py-2.5 text-ink-muted">{row.claim.replaceAll("**", "")}</td>
+                    <td className="px-4 py-2.5 ae-num text-xs text-ink-muted">
+                      {row.receipt.replaceAll("`", "").replaceAll("**", "")}
+                    </td>
+                    <td className="px-4 py-2.5 text-xs text-ink-muted">
+                      <span className="inline-flex items-start gap-2">
+                        <span
+                          aria-hidden="true"
+                          className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${
+                            row.status.toLowerCase().includes("verified") ? "ae-ledger-dot bg-link" : "bg-warn"
+                          }`}
+                        />
+                        {row.status.replaceAll("**", "")}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div aria-hidden="true" className="ae-ledger-scan" />
+          </div>
         </div>
         <p className="mt-3 max-w-3xl text-xs leading-relaxed text-ink-subtle">
           Receipts reference paths in our repository. Public excerpts of the engineering
@@ -270,14 +307,14 @@ export default function HowItsBuiltPage() {
         </p>
       </section>
 
-      <section aria-labelledby="principles-title" className="mt-14">
-        <h2 id="principles-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="principles-title" className="mt-16 md:mt-24">
+        <h2 id="principles-title" className="ae-h3">
           The honesty rules, as engineering principles
         </h2>
         <ul className="mt-6 max-w-3xl space-y-4">
           {PRINCIPLES.map((p) => (
             <li key={p} className="flex gap-3 text-sm leading-relaxed text-ink-muted">
-              <span aria-hidden="true" className="mt-0.5 text-up">—</span>
+              <span aria-hidden="true" className="mt-0.5 text-link">—</span>
               <span>{p}</span>
             </li>
           ))}
@@ -287,7 +324,7 @@ export default function HowItsBuiltPage() {
       <p className="mt-14 max-w-2xl text-sm text-ink-muted">
         The measured outcome of all of this — every research call scored to its exit —
         lives on the{" "}
-        <Link href="/track-record" className="text-up underline underline-offset-2 hover:opacity-80">
+        <Link href="/track-record" className="ae-link">
           track record page
         </Link>
         .

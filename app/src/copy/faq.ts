@@ -12,10 +12,10 @@ export interface FaqItem {
 
 export const FAQ_ITEMS: FaqItem[] = [
   {
-    q: "Will AlphaEdge make me money?",
+    q: "Will Algoryq Trade make me money?",
     a:
       "We will never tell you that — not because a regulator says so (though " +
-      "one does), but because nobody can honestly promise it. What AlphaEdge " +
+      "one does), but because nobody can honestly promise it. What Algoryq Trade " +
       "offers is practice on the live market with virtual money, real costs, " +
       "and a risk engine — and, once research publication begins, measured " +
       "outcomes net of charges with confidence intervals, losers included.",
@@ -29,7 +29,7 @@ export const FAQ_ITEMS: FaqItem[] = [
       "the model.",
   },
   {
-    q: "Can I trade with real money on AlphaEdge?",
+    q: "Can I trade with real money on Algoryq Trade?",
     a:
       "The sandbox is virtual money only. A live broker connection exists as " +
       "a separate, gated path: off by default, versioned consent, step-up " +

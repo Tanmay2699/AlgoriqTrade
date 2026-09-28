@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Photo } from "@/components/photo";
 import Link from "next/link";
 import { ComparisonTable } from "@/components/comparison-table";
 import { COMPARISON } from "@/copy/comparison";
@@ -19,7 +20,7 @@ import { QUOTA_ROWS } from "@/lib/quotas";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "AlphaEdge tiers: Free sandbox on delayed data; Pro and Elite add real-time data, " +
+    "Algoryq Trade tiers: Free sandbox on delayed data; Pro and Elite add real-time data, " +
     "depth, research and backtesting. Monthly, GST-inclusive, cancel any time.",
 };
 
@@ -71,7 +72,7 @@ function OffersJsonLd({ plans }: { plans: Plan[] }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AlphaEdge",
+    name: "Algoryq Trade",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
     offers: plans
@@ -88,23 +89,30 @@ function OffersJsonLd({ plans }: { plans: Plan[] }) {
   );
 }
 
+const TIERS = ["Free", "Pro", "Elite", "Institutional"] as const;
+
 export default async function PricingPage() {
   const plans = await loadPlans();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
+    <div className="ae-container py-14 md:py-20">
       {plans !== null && plans.length > 0 ? <OffersJsonLd plans={plans} /> : null}
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl">
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <h1 className="ae-h1 max-w-4xl">
         Four tiers, no asterisks.
       </h1>
-      <p className="mt-3 max-w-2xl text-ink-muted">
+      <p className="ae-lede mt-6 max-w-3xl">
         Monthly, GST-inclusive, in Indian rupees. Cancel any time — access runs to the
         end of the paid period. The Free tier is not a trial: delayed data, full
         sandbox, honest charges, for as long as you like.
       </p>
+        </div>
+        <Photo k="laptopFloor" className="lg:col-span-5" priority />
+      </div>
 
       {plans === null ? (
-        <div className="mt-10 rounded-lg border border-line bg-panel p-6 text-sm text-ink-muted">
+        <div className="mt-10 rounded-2xl border border-line bg-panel p-7 text-sm text-ink-muted">
           The plan catalog is temporarily unavailable. Rather than show prices that
           might be out of date, we would rather show none — please try again shortly.
         </div>
@@ -113,7 +121,7 @@ export default async function PricingPage() {
           {plans.map((plan) => (
             <article
               key={plan.code}
-              className="flex flex-col rounded-lg border border-line bg-panel p-6"
+              className="flex flex-col rounded-2xl border border-line bg-panel p-7"
             >
               <h2 className="text-lg font-semibold text-ink">{plan.name}</h2>
               <p className="tabular mt-2 text-2xl font-bold text-ink">
@@ -130,7 +138,7 @@ export default async function PricingPage() {
               <ul className="mt-4 flex-1 space-y-1.5 text-sm text-ink-muted">
                 {plan.features.map((f) => (
                   <li key={f} className="flex gap-2">
-                    <span aria-hidden="true" className="text-up">
+                    <span aria-hidden="true" className="text-link">
                       ✓
                     </span>
                     <span>{FEATURE_LABELS[f] ?? f}</span>
@@ -139,7 +147,7 @@ export default async function PricingPage() {
               </ul>
               <Link
                 href="/waitlist"
-                className="mt-6 rounded-md border border-line-strong px-4 py-2 text-center text-sm font-medium text-ink transition hover:border-up hover:text-up"
+                className="ae-btn-ghost ae-btn-sm mt-6"
               >
                 {plan.interval === "custom" ? "Contact us" : "Get started"}
               </Link>
@@ -149,66 +157,96 @@ export default async function PricingPage() {
       )}
 
       <section aria-labelledby="quota-title" className="mt-16">
-        <h2 id="quota-title" className="text-xl font-semibold text-ink">
+        <h2 id="quota-title" className="ae-h3">
           What each tier enforces
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           These are the operational limits the platform applies, quoted from the code
           that enforces them. If a limit changes there, this table follows.
         </p>
-        {/* Focusable scroll container: a keyboard user must be able to reach
-            and scroll a wide table (the terminal's pattern). */}
-        <div
-          tabIndex={0}
-          role="region"
-          aria-labelledby="quota-title"
-          className="mt-6 overflow-x-auto rounded-lg border border-line"
-        >
-          <table className="w-full min-w-[720px] border-collapse text-sm">
-            <caption className="sr-only">
-              Per-tier operational limits for Free, Pro, Elite and Institutional plans
-            </caption>
-            <thead>
-              <tr className="border-b border-line bg-panel text-left">
-                <th scope="col" className="px-4 py-3 font-medium text-ink">
-                  Limit
-                </th>
-                <th scope="col" className="px-4 py-3 font-medium text-ink">
-                  Free
-                </th>
-                <th scope="col" className="px-4 py-3 font-medium text-ink">
-                  Pro
-                </th>
-                <th scope="col" className="px-4 py-3 font-medium text-ink">
-                  Elite
-                </th>
-                <th scope="col" className="px-4 py-3 font-medium text-ink">
-                  Institutional
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {QUOTA_ROWS.map((row) => (
-                <tr key={row.label} className="border-b border-line last:border-b-0">
-                  <th scope="row" className="px-4 py-3 text-left font-normal text-ink">
-                    {row.label}
-                  </th>
-                  <td className="tabular px-4 py-3 text-ink-muted">{row.free}</td>
-                  <td className="tabular px-4 py-3 text-ink-muted">{row.pro}</td>
-                  <td className="tabular px-4 py-3 text-ink-muted">{row.elite}</td>
-                  <td className="tabular px-4 py-3 text-ink-muted">{row.institutional}</td>
-                </tr>
+        {/* Tier selector: CSS-only (radios + :has). Until a visitor picks,
+            a spotlight walks the four columns on a loop; picking one pins
+            it. Works without JavaScript. */}
+        <div data-loop className="ae-tiers mt-6">
+          <fieldset className="mb-4">
+            <legend className="sr-only">Highlight a tier in the table</legend>
+            <div className="relative grid w-full max-w-[560px] grid-cols-4 rounded-xl border border-line bg-sunk p-1">
+              <span
+                aria-hidden="true"
+                className="ae-tier-thumb absolute inset-y-1 left-1 w-[calc((100%-8px)/4)] rounded-[9px] bg-panel-raised shadow-[0_0_0_1px_var(--ae-border-strong),0_0_18px_color-mix(in_oklab,var(--ae-glow)_25%,transparent)]"
+              />
+              {TIERS.map((t, i) => (
+                <span key={t} className="relative">
+                  <input type="radio" name="tier" id={`tier-${i}`} className="peer sr-only" />
+                  <label
+                    htmlFor={`tier-${i}`}
+                    className="flex h-10 cursor-pointer items-center justify-center rounded-[9px] text-sm font-semibold text-ink-muted transition-colors hover:text-ink"
+                  >
+                    {t}
+                  </label>
+                </span>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </fieldset>
+          {/* Focusable scroll container: a keyboard user must be able to reach
+              and scroll a wide table (the terminal's pattern). */}
+          <div
+            tabIndex={0}
+            role="region"
+            aria-labelledby="quota-title"
+            className="overflow-x-auto rounded-2xl border border-line"
+          >
+            <table className="w-full min-w-[720px] border-collapse text-sm">
+              <caption className="sr-only">
+                Per-tier operational limits for Free, Pro, Elite and Institutional plans
+              </caption>
+              <thead>
+                <tr className="border-b border-line bg-panel text-left">
+                  <th scope="col" className="px-4 py-3 font-medium text-ink">
+                    Limit
+                  </th>
+                  {TIERS.map((t, i) => (
+                    <th
+                      key={t}
+                      scope="col"
+                      data-col={i}
+                      style={{ "--c": i } as React.CSSProperties}
+                      className="px-4 py-3 font-medium text-ink"
+                    >
+                      {t}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {QUOTA_ROWS.map((row) => (
+                  <tr key={row.label} className="border-b border-line transition-colors last:border-b-0 hover:bg-panel">
+                    <th scope="row" className="px-4 py-3 text-left font-normal text-ink">
+                      {row.label}
+                    </th>
+                    {[row.free, row.pro, row.elite, row.institutional].map((v, i) => (
+                      <td
+                        key={i}
+                        data-col={i}
+                        style={{ "--c": i } as React.CSSProperties}
+                        className="ae-num px-4 py-3 text-ink-muted"
+                      >
+                        {v}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
       <section aria-labelledby="comparison-title" className="mt-16">
-        <h2 id="comparison-title" className="text-xl font-semibold text-ink">
+        <h2 id="comparison-title" className="ae-h3">
           {COMPARISON.title}
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">{COMPARISON.lede}</p>
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">{COMPARISON.lede}</p>
         <div className="mt-6">
           <ComparisonTable />
         </div>

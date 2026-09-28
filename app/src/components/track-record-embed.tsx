@@ -90,12 +90,12 @@ const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
 function Headline({ stats }: { stats: CoreStats }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <div className="rounded-lg border border-line bg-panel p-4">
+      <div className="rounded-2xl border border-line bg-panel p-5">
         <p className="text-xs uppercase tracking-wide text-ink-subtle">Calls triggered</p>
         <p className="tabular mt-1 text-2xl font-bold text-ink">{stats.triggered_count}</p>
         <p className="mt-1 text-xs text-ink-muted">of {stats.published_count} published</p>
       </div>
-      <div className="rounded-lg border border-line bg-panel p-4">
+      <div className="rounded-2xl border border-line bg-panel p-5">
         <p className="text-xs uppercase tracking-wide text-ink-subtle">Hit rate (T1+, triggered)</p>
         <p className="tabular mt-1 text-2xl font-bold text-ink">{pct(stats.hit_rate)}</p>
         <div className="mt-2">
@@ -110,14 +110,14 @@ function Headline({ stats }: { stats: CoreStats }) {
           95% CI {pct(stats.hit_rate_ci95.low)}–{pct(stats.hit_rate_ci95.high)}
         </p>
       </div>
-      <div className="rounded-lg border border-line bg-panel p-4">
+      <div className="rounded-2xl border border-line bg-panel p-5">
         <p className="text-xs uppercase tracking-wide text-ink-subtle">Avg realised R</p>
         <p className="tabular mt-1 text-2xl font-bold text-ink">
           {stats.avg_realized_r.toFixed(2)}
         </p>
         <p className="mt-1 text-xs text-ink-muted">max losing streak {stats.max_losing_streak}</p>
       </div>
-      <div className="rounded-lg border border-line bg-panel p-4">
+      <div className="rounded-2xl border border-line bg-panel p-5">
         <p className="text-xs uppercase tracking-wide text-ink-subtle">Net P&L per ₹1L deployed</p>
         <p className="tabular mt-1 text-2xl font-bold text-ink">
           {formatPaise(stats.total_net_pnl_paise_per_lakh)}
@@ -133,9 +133,9 @@ export async function TrackRecordEmbed() {
 
   if (record === null) {
     return (
-      <div className="rounded-lg border border-line bg-panel p-6">
-        <h2 className="text-sm font-semibold text-ink">Track record temporarily unreachable</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+      <div className="rounded-2xl border border-line bg-panel p-7">
+        <h2 className="text-base font-semibold text-ink-strong">Track record temporarily unreachable</h2>
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           This section renders live from the transparency service, and we could not reach
           it just now. Rather than show cached or reconstructed figures, we show none —
           the live figures are the only figures. Please try again shortly.
@@ -146,9 +146,9 @@ export async function TrackRecordEmbed() {
 
   if (record.status === "dark_launch") {
     return (
-      <div className="rounded-lg border border-line bg-panel p-6">
-        <h2 className="text-sm font-semibold text-ink">Dark launch: nothing is published yet</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+      <div className="rounded-2xl border border-line bg-panel p-7">
+        <h2 className="text-base font-semibold text-ink-strong">Dark launch: nothing is published yet</h2>
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           The research pipeline runs daily and every call is scored — but nothing is
           published until our SEBI Research Analyst registration is granted and the
           evidence window completes. Until then this page shows the window&apos;s progress
@@ -201,7 +201,7 @@ export async function TrackRecordEmbed() {
             tabIndex={0}
             role="region"
             aria-label="Monthly transparency reports with content hashes"
-            className="overflow-x-auto rounded-lg border border-line"
+            className="overflow-x-auto rounded-2xl border border-line"
           >
             <table className="w-full min-w-[560px] border-collapse text-sm">
               <caption className="sr-only">
@@ -225,7 +225,7 @@ export async function TrackRecordEmbed() {
                     <td className="tabular px-4 py-2 text-right text-ink-muted">
                       {pct(m.stats.hit_rate)}
                     </td>
-                    <td className="tabular px-4 py-2 font-mono text-xs text-ink-muted">
+                    <td className="tabular px-4 py-2 ae-num text-xs text-ink-muted">
                       {m.content_sha256 ? m.content_sha256.slice(0, 16) + "…" : "—"}
                     </td>
                   </tr>

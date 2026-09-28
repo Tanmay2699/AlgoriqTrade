@@ -3,7 +3,8 @@
  * intensity scale (`tileStyle`) rebuilt on tokens: `color-mix` against
  * `--ae-up`/`--ae-down` so theme and deutan switches reach every tile, with
  * intensity saturating at ±1.5%. Sign glyphs accompany colour (colour is
- * never the only signal — 04 §8).
+ * never the only signal — 04 §8). Motion: light rakes across the tiles and
+ * each glyph nudges the way it points; the values never change.
  *
  * The data label is a REQUIRED prop rendered by the component itself, so no
  * composition can show these tiles without saying what the numbers are
@@ -26,21 +27,26 @@ function tileBackground(bps: number): string {
 
 function formatBps(bps: number): string {
   const pct = (Math.abs(bps) / 100).toFixed(2);
-  return `${bps >= 0 ? "▲ +" : "▼ −"}${pct}%`;
+  return `${bps >= 0 ? "+" : "−"}${pct}%`;
 }
 
 export function HeatmapTiles({ sectors, label }: { sectors: SectorTile[]; label: string }) {
   return (
-    <figure aria-describedby="heatmap-label">
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {sectors.map((s) => (
+    <figure aria-describedby="heatmap-label" data-loop>
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+        {sectors.map((s, i) => (
           <div
             key={s.name}
-            className="rounded-md border border-line px-3 py-3"
-            style={{ background: tileBackground(s.bps) }}
+            className="ae-tile rounded-xl border border-line px-4 py-4"
+            style={{ background: tileBackground(s.bps), "--i": i } as React.CSSProperties}
           >
-            <p className="text-xs font-medium text-ink">{s.name}</p>
-            <p className="tabular mt-1 text-xs text-ink-muted">{formatBps(s.bps)}</p>
+            <p className="text-sm font-medium text-ink">{s.name}</p>
+            <p className="ae-num mt-1.5 text-sm text-ink-muted">
+              <span aria-hidden="true" className={s.bps >= 0 ? "ae-tick-up" : "ae-tick-down"}>
+                {s.bps >= 0 ? "▲" : "▼"}
+              </span>{" "}
+              {formatBps(s.bps)}
+            </p>
           </div>
         ))}
       </div>

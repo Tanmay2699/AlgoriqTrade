@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { Photo } from "@/components/photo";
 import { WaitlistForm } from "@/components/waitlist-form";
+import { WAITLIST_PAGE } from "@/copy/waitlist";
 
 export const metadata: Metadata = {
   title: "Early access",
   description:
-    "Join the AlphaEdge early-access list. One email when access opens — nothing else.",
+    "Join the Algoryq Trade early-access list. One email when access opens — nothing else.",
 };
 
 /**
@@ -15,17 +17,29 @@ export const metadata: Metadata = {
  */
 export default function WaitlistPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl">
-        Early access
-      </h1>
-      <p className="mt-3 max-w-2xl text-ink-muted">
-        AlphaEdge is in its build phase. Accounts open when identity and the evidence
-        window are ready — leave an address and we will send exactly one kind of email:
-        launch updates.
-      </p>
-      <div className="mt-10">
-        <WaitlistForm />
+    <div className="relative overflow-hidden">
+      <div aria-hidden="true" className="ae-aurora -right-40 top-10 h-[520px] w-[720px]" />
+      <div className="ae-container relative grid items-start gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-16">
+        <div className="flex flex-col gap-6 lg:col-span-6">
+          <p className="ae-eyebrow ae-rise">{WAITLIST_PAGE.eyebrow}</p>
+          <h1 className="ae-h1 ae-rise ae-d1">{WAITLIST_PAGE.title}</h1>
+          <p className="ae-lede ae-rise ae-d2">{WAITLIST_PAGE.lede}</p>
+          <ul className="ae-rise ae-d3 flex flex-col gap-3">
+            {WAITLIST_PAGE.points.map((p) => (
+              <li key={p} className="flex items-start gap-3 text-[15px] text-ink">
+                <svg className="mt-0.5 shrink-0 text-link" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M8 12.5l2.5 2.5L16 9.5" />
+                </svg>
+                {p}
+              </li>
+            ))}
+          </ul>
+          <Photo k="smilingPhone" className="mt-4 hidden lg:block" priority />
+        </div>
+        <div className="ae-rise ae-d2 lg:col-span-6 lg:pt-10">
+          <WaitlistForm />
+        </div>
       </div>
     </div>
   );

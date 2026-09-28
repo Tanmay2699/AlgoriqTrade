@@ -56,7 +56,7 @@ test("simulated visuals carry their data labels", async ({ page }) => {
   // Product screenshots carry their capture-provenance line (ProductFrame
   // renders it from the manifest; it cannot be omitted by props).
   await expect(
-    page.getByText(/Captured from the AlphaEdge terminal on a stub data feed/).first(),
+    page.getByText(/Captured from the Algoryq Trade terminal on a stub data feed/).first(),
   ).toBeVisible();
 });
 

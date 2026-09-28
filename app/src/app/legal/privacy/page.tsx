@@ -3,14 +3,14 @@ import { CounselPending, LegalShell } from "../_shared";
 
 export const metadata: Metadata = {
   title: "Privacy (DPDP)",
-  description: "How AlphaEdge handles personal data under the DPDP Act 2023.",
+  description: "How Algoryq Trade handles personal data under the DPDP Act 2023.",
 };
 
 export default function PrivacyPage() {
   return (
     <LegalShell
       title="Privacy notice"
-      lede="Digital Personal Data Protection Act, 2023 — how AlphaEdge treats personal data."
+      lede="Digital Personal Data Protection Act, 2023 — how Algoryq Trade treats personal data."
     >
       <CounselPending />
       <h2>Where data lives</h2>

@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 
 export function CounselPending() {
   return (
-    <div className="rounded-md border border-warn-soft bg-warn-soft px-4 py-3 text-xs leading-relaxed">
+    <div className="rounded-xl border border-warn-soft bg-warn-soft px-4 py-3 text-xs leading-relaxed">
       <span className="font-semibold text-warn-ink">Draft status: </span>
       <span className="text-warn-ink">
         This page is being finalised with counsel and will change before launch. What is
@@ -30,11 +30,14 @@ export function LegalShell({
   children: ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16">
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink">{title}</h1>
-      {lede ? <p className="mt-3 text-ink-muted">{lede}</p> : null}
-      <div className="mt-8 space-y-6 text-sm leading-relaxed text-ink-muted [&_h2]:mt-8 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-ink">
-        {children}
+    <div className="ae-container py-14 md:py-20">
+      <div className="max-w-3xl">
+        <p className="ae-eyebrow">Legal</p>
+        <h1 className="ae-h1 mt-5 !text-[clamp(34px,2.4vw+1rem,48px)]">{title}</h1>
+        {lede ? <p className="ae-lede mt-5">{lede}</p> : null}
+        <div className="mt-10 space-y-6 text-[15px] leading-relaxed text-ink-muted [&_a]:text-link [&_a]:underline [&_a]:underline-offset-2 [&_h2]:mt-10 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-ink-strong">
+          {children}
+        </div>
       </div>
     </div>
   );

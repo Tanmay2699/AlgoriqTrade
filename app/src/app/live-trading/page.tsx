@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Photo } from "@/components/photo";
 import Link from "next/link";
 import { FlowDiagram } from "@/components/flow-diagram";
 
@@ -15,7 +16,7 @@ import { FlowDiagram } from "@/components/flow-diagram";
 export const metadata: Metadata = {
   title: "Live trading",
   description:
-    "How AlphaEdge graduates you to a real broker: four gates checked together, no " +
+    "How Algoryq Trade graduates you to a real broker: four gates checked together, no " +
     "automated live orders ever, honest capability mapping on Zerodha Kite, and a " +
     "timeout rule that never risks a duplicate order.",
 };
@@ -54,16 +55,21 @@ const GATES = [
 
 export default function LiveTradingPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl">
+    <div className="ae-container py-14 md:py-20">
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <h1 className="ae-h1 max-w-4xl">
         Live trading is a graduation, not a default.
       </h1>
-      <p className="mt-3 max-w-2xl text-ink-muted">
+      <p className="ae-lede mt-6 max-w-3xl">
         The sandbox is the product; a real broker is the opt-in. A real order can
-        only leave AlphaEdge through four gates, checked together so none can be
+        only leave Algoryq Trade through four gates, checked together so none can be
         skipped — and when one refuses, the refusal names the gate that stopped it.
         (CL-009)
       </p>
+        </div>
+        <Photo k="handPhone2" className="lg:col-span-5" priority />
+      </div>
 
       <div className="mt-10">
         <FlowDiagram
@@ -77,27 +83,27 @@ export default function LiveTradingPage() {
         />
       </div>
 
-      <section aria-labelledby="gates-title" className="mt-14">
-        <h2 id="gates-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="gates-title" className="mt-16 md:mt-24">
+        <h2 id="gates-title" className="ae-h3">
           The gates, one by one
         </h2>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {GATES.map((gate) => (
-            <div key={gate.title} className="rounded-lg border border-line bg-panel p-5">
-              <h3 className="text-sm font-semibold text-ink">{gate.title}</h3>
+            <div key={gate.title} className="rounded-2xl border border-line bg-panel p-6">
+              <h3 className="text-base font-semibold text-ink-strong">{gate.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">{gate.body}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="sebi-title" className="mt-14">
-        <h2 id="sebi-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="sebi-title" className="mt-16 md:mt-24">
+        <h2 id="sebi-title" className="ae-h3">
           Where this stands with SEBI, in plain words
         </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           SEBI&apos;s February 2025 framework regulates retail algorithmic trading —
-          automated orders placed on your behalf. AlphaEdge places no automated live
+          automated orders placed on your behalf. Algoryq Trade places no automated live
           orders, ever: gate four means every real order carries your explicit,
           per-order confirmation, which is what keeps this product outside that
           perimeter. The refusal text in the product names the framework, so the
@@ -108,18 +114,18 @@ export default function LiveTradingPage() {
         </p>
       </section>
 
-      <section aria-labelledby="kite-title" className="mt-14">
-        <h2 id="kite-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="kite-title" className="mt-16 md:mt-24">
+        <h2 id="kite-title" className="ae-h3">
           Zerodha Kite, mapped honestly
         </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           Kite is the adapter that exists today. The architecture is broker-agnostic —
           adapters declare capabilities, and the bridge maps orders loss-transparently —
           but we name integrations when they work, not when they are planned.
         </p>
         <div className="mt-6 space-y-4">
-          <div className="max-w-3xl rounded-lg border border-line bg-panel p-5">
-            <h3 className="text-sm font-semibold text-ink">
+          <div className="max-w-3xl rounded-2xl border border-line bg-panel p-6">
+            <h3 className="text-base font-semibold text-ink-strong">
               A bracket order becomes a GTT-OCO — and says so
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-ink-muted">
@@ -133,21 +139,21 @@ export default function LiveTradingPage() {
               not have is not listed. (CL-032)
             </p>
           </div>
-          <div className="max-w-3xl rounded-lg border border-line bg-panel p-5">
-            <h3 className="text-sm font-semibold text-ink">
+          <div className="max-w-3xl rounded-2xl border border-line bg-panel p-6">
+            <h3 className="text-base font-semibold text-ink-strong">
               A timed-out order is never retried
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-ink-muted">
               If a live order times out, its state is unknown — the broker may or may
-              not have it. AlphaEdge marks the attempt UNKNOWN and refuses further
+              not have it. Algoryq Trade marks the attempt UNKNOWN and refuses further
               attempts until it has reconciled against the broker&apos;s own book. You
               cannot route around this by clicking again, and neither can our code.
               The duplicate order is the disaster this rule exists to make
               impossible. (CL-033)
             </p>
           </div>
-          <div className="max-w-3xl rounded-lg border border-line bg-panel p-5">
-            <h3 className="text-sm font-semibold text-ink">
+          <div className="max-w-3xl rounded-2xl border border-line bg-panel p-6">
+            <h3 className="text-base font-semibold text-ink-strong">
               Your broker password has nowhere to live
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-ink-muted">
@@ -157,7 +163,7 @@ export default function LiveTradingPage() {
               details are on the{" "}
               <Link
                 href="/security"
-                className="text-up underline underline-offset-2 hover:opacity-80"
+                className="ae-link"
               >
                 security page
               </Link>
@@ -170,7 +176,7 @@ export default function LiveTradingPage() {
       <p className="mt-14 max-w-2xl text-sm text-ink-muted">
         Until you choose to graduate, nothing here applies to you: the sandbox runs
         on virtual money, full stop. Start there —{" "}
-        <Link href="/waitlist" className="text-up underline underline-offset-2 hover:opacity-80">
+        <Link href="/waitlist" className="ae-link">
           join early access
         </Link>
         .

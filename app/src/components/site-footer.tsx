@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 /**
@@ -10,6 +11,15 @@ import { ThemeToggle } from "@/components/theme-toggle";
  * edits here are linted in CI.
  */
 
+const PRODUCT_LINKS = [
+  { href: "/pricing", label: "Pricing" },
+  { href: "/track-record", label: "Track record" },
+  { href: "/security", label: "Security" },
+  { href: "/how-its-built", label: "How it's built" },
+  { href: "/live-trading", label: "Live trading" },
+  { href: "/waitlist", label: "Early access" },
+] as const;
+
 const LEGAL_LINKS = [
   { href: "/legal/terms", label: "Terms of use" },
   { href: "/legal/privacy", label: "Privacy (DPDP)" },
@@ -18,29 +28,46 @@ const LEGAL_LINKS = [
   { href: "/legal/grievance", label: "Grievance redressal" },
 ] as const;
 
+function LinkColumn({
+  label,
+  links,
+}: {
+  label: string;
+  links: readonly { href: string; label: string }[];
+}) {
+  return (
+    <nav aria-label={label} className="flex flex-col gap-2.5 text-sm">
+      <p className="ae-num text-xs uppercase tracking-[0.06em] text-ink-subtle">{label}</p>
+      {links.map((l) => (
+        <Link key={l.href} href={l.href} className="ae-nl inline-flex min-h-6 items-center self-start">
+          {l.label}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto max-w-6xl space-y-6 px-4 py-10">
-        <p className="text-sm font-medium text-ink">
-          Virtual money. Not a broker. Not investment advice.
-        </p>
+    <footer className="mt-10 border-t border-line">
+      <div className="ae-container flex flex-col gap-10 pb-12 pt-16">
+        <div className="flex flex-col gap-10 md:flex-row md:gap-20">
+          <div className="flex max-w-[360px] flex-col gap-3">
+            <Logo />
+            <p className="text-sm leading-relaxed text-ink-subtle">
+              Paper trading and market intelligence for Indian markets.
+            </p>
+            <p className="text-sm font-medium text-ink">
+              Virtual money. Not a broker. Not investment advice.
+            </p>
+          </div>
+          <LinkColumn label="Product" links={PRODUCT_LINKS} />
+          <LinkColumn label="Legal" links={LEGAL_LINKS} />
+        </div>
 
-        <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2 text-xs">
-          {LEGAL_LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="inline-flex min-h-6 items-center text-ink-muted transition hover:text-ink"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="space-y-3 text-xs leading-relaxed text-ink-muted">
+        <div className="max-w-[860px] space-y-3 border-t border-line pt-6 text-xs leading-relaxed text-ink-subtle">
           <p>
-            AlphaEdge is a market-intelligence and paper-trading platform. Trading in
+            Algoryq Trade is a market-intelligence and paper-trading platform. Trading in
             securities is subject to market risk. Nothing on this site is investment
             advice or a recommendation to buy or sell any security. Sandbox trading uses
             virtual money only — no real orders are placed and no real funds are at risk.
@@ -50,12 +77,11 @@ export function SiteFooter() {
             analyst review. Until both are in place no research output is published, and
             no performance figures are shown anywhere on this site.
           </p>
-          <p>© AlphaEdge. Data hosted in India (DPDP Act 2023).</p>
         </div>
 
-        <div className="flex items-center justify-between gap-4 border-t border-line pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="text-xs text-ink-subtle">
-            Alpha<span className="text-up">Edge</span>
+            © Algoryq Trade. Data hosted in India (DPDP Act 2023).
           </p>
           <ThemeToggle />
         </div>

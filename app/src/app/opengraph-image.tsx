@@ -1,7 +1,7 @@
 import { OG_SIZE, ogImage } from "@/lib/og-template";
 
 export const alt =
-  "AlphaEdge — the market is real, the money is virtual, the discipline is yours.";
+  "Algoryq Trade — the market is real, the money is virtual, the discipline is yours.";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 

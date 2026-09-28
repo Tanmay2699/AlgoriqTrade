@@ -29,12 +29,12 @@ export function CiBar({ rate, low, high, label }: CiBarProps) {
     >
       <div
         aria-hidden="true"
-        className="absolute inset-y-0 rounded-full bg-up/30"
+        className="absolute inset-y-0 rounded-full bg-link/35"
         style={{ left: pct(low), width: `${Math.max(0, (high - low) * 100)}%` }}
       />
       <div
         aria-hidden="true"
-        className="absolute inset-y-0 w-0.5 -translate-x-1/2 bg-up"
+        className="absolute inset-y-0 w-0.5 -translate-x-1/2 bg-ink-strong"
         style={{ left: pct(rate) }}
       />
     </div>

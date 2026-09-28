@@ -69,7 +69,7 @@ const TERMINAL_ENV = {
 };
 
 const SOURCE_LINE =
-  "Captured from the AlphaEdge terminal on a stub data feed — simulated data, not live quotes.";
+  "Captured from the Algoryq Trade terminal on a stub data feed — simulated data, not live quotes.";
 
 /**
  * id → capture spec. `ready` is a selector that must resolve before the

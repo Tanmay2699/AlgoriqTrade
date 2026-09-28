@@ -27,3 +27,6 @@ app/playwright-report/
 app/blob-report/
 app/.playwright/
 nextbuild.log
+
+# Original generator-watermarked photos (cleaned copies live in app/public/images)
+redesign/source-images/

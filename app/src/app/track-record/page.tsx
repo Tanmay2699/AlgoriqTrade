@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Photo } from "@/components/photo";
 import Link from "next/link";
 import { Disclaimer } from "@/components/disclaimer";
 import { TrackRecordEmbed } from "@/components/track-record-embed";
+import { AuditChain, IntervalExample } from "@/components/track-proof";
 
 /**
  * /track-record (website/docs/03 §4) — the transparency surface, full page:
@@ -62,15 +64,20 @@ const METHODOLOGY = [
 
 export default function TrackRecordPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl">
+    <div className="ae-container py-14 md:py-20">
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <h1 className="ae-h1 max-w-4xl">
         A track record no one can edit.
       </h1>
-      <p className="mt-3 max-w-2xl text-ink-muted">
+      <p className="ae-lede mt-6 max-w-3xl">
         This page renders live from the same anonymous, public transparency API anyone
         can query — you do not need an account, and neither does anyone auditing us.
         (CL-018) What it shows is decided by the scoring code, not by marketing.
       </p>
+        </div>
+        <Photo k="printedReport2" className="lg:col-span-5" priority />
+      </div>
 
       <div className="mt-10">
         <TrackRecordEmbed />
@@ -81,19 +88,26 @@ export default function TrackRecordPage() {
         <Disclaimer which="TRACK_RECORD" />
       </div>
 
+      <div className="mt-10 flex flex-col gap-5">
+        <div className="max-w-xl">
+          <IntervalExample />
+        </div>
+        <AuditChain />
+      </div>
+
       <section aria-labelledby="methodology-title" className="mt-16">
-        <h2 id="methodology-title" className="text-xl font-semibold text-ink">
+        <h2 id="methodology-title" className="ae-h3">
           How we score — the rules the code enforces
         </h2>
-        <p className="mt-2 max-w-2xl text-sm text-ink-muted">
+        <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">
           The methodology below is not policy prose; each rule cites the implementation
           in our repository, and continuous integration re-verifies the pieces that can
           drift. (CL-012)
         </p>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {METHODOLOGY.map((m) => (
-            <div key={m.title} className="rounded-lg border border-line bg-panel p-5">
-              <h3 className="text-sm font-semibold text-ink">{m.title}</h3>
+            <div key={m.title} className="rounded-2xl border border-line bg-panel p-6">
+              <h3 className="text-base font-semibold text-ink-strong">{m.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">{m.body}</p>
             </div>
           ))}
@@ -105,7 +119,7 @@ export default function TrackRecordPage() {
         <p className="text-sm text-ink-muted">
           How the calls are produced — five analysts, deterministic conviction, a human
           gate — is on the{" "}
-          <Link href="/#research" className="text-up underline underline-offset-2 hover:opacity-80">
+          <Link href="/#research" className="ae-link">
             research section of the homepage
           </Link>
           .

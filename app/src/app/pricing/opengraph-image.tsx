@@ -1,6 +1,6 @@
 import { OG_SIZE, ogImage } from "@/lib/og-template";
 
-export const alt = "AlphaEdge pricing — four tiers, no asterisks.";
+export const alt = "Algoryq Trade pricing — four tiers, no asterisks.";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 

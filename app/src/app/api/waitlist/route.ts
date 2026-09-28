@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CONSENT_VERSION, SEGMENTS } from "@/copy/waitlist";
 
 /**
  * Waitlist endpoint (website/docs/05 §10, 07 §2).
@@ -19,8 +20,7 @@ import { NextResponse } from "next/server";
  * (platform/helm/values/website/values.yaml documents the pairing).
  */
 
-// Bump on any change to the consent wording in waitlist-form.tsx.
-const CONSENT_VERSION = "2026-08-03.1";
+// CONSENT_VERSION lives with the wording in src/copy/waitlist.ts.
 const PURPOSE = "launch_updates";
 
 // Deliberately permissive shape check — real validation is the sink's job;
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: { email?: unknown; consent?: unknown };
+  let body: { email?: unknown; consent?: unknown; segments?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -65,6 +65,12 @@ export async function POST(req: Request) {
     );
   }
 
+  // Optional segments: anything outside the closed list is dropped, so
+  // the sink never receives free text we did not ask consent for.
+  const segments = Array.isArray(body.segments)
+    ? body.segments.filter((x): x is string => (SEGMENTS as readonly string[]).includes(x as string))
+    : [];
+
   try {
     const res = await fetch(sink, {
       method: "POST",
@@ -73,6 +79,7 @@ export async function POST(req: Request) {
         email,
         purpose: PURPOSE,
         consent_version: CONSENT_VERSION,
+        segments: [...new Set(segments)],
         consented_at: new Date().toISOString(),
       }),
       signal: AbortSignal.timeout(5000),
@@ -86,5 +93,5 @@ export async function POST(req: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true }, { status: 201 });
+  return NextResponse.json({ ok: true, consent_version: CONSENT_VERSION }, { status: 201 });
 }

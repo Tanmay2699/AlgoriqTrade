@@ -3,7 +3,7 @@ import { CounselPending, LegalShell } from "../_shared";
 
 export const metadata: Metadata = {
   title: "Grievance redressal",
-  description: "How to raise a complaint with AlphaEdge and where it escalates.",
+  description: "How to raise a complaint with Algoryq Trade and where it escalates.",
 };
 
 export default function GrievancePage() {

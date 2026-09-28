@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Photo } from "@/components/photo";
 import Link from "next/link";
 
 /**
@@ -12,7 +13,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Security",
   description:
-    "AlphaEdge's security and data posture: no broker passwords by construction, " +
+    "Algoryq Trade's security and data posture: no broker passwords by construction, " +
     "envelope-encrypted tokens, India-only processing, server-side session timeouts, " +
     "hash-chained audit logs — and an honest list of what doesn't exist yet.",
 };
@@ -53,7 +54,7 @@ const SECTIONS = [
     id: "data",
     title: "Where your data lives, and why it stays there",
     intro:
-      "AlphaEdge is built for the DPDP Act 2023 posture: Indian-region processing, " +
+      "Algoryq Trade is built for the DPDP Act 2023 posture: Indian-region processing, " +
       "purpose-limited consent, no dark patterns.",
     facts: [
       {
@@ -113,7 +114,7 @@ const NOT_YET = [
   {
     title: "No external security audit yet",
     body:
-      "AlphaEdge has not yet been through an independent penetration test or " +
+      "Algoryq Trade has not yet been through an independent penetration test or " +
       "security audit. One is planned before general availability; when it has " +
       "happened, this page will say so — and until it has, this page will not " +
       "pretend otherwise.",
@@ -136,27 +137,32 @@ const NOT_YET = [
 
 export default function SecurityPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <h1 className="text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl">
+    <div className="ae-container py-14 md:py-20">
+      <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-7">
+          <h1 className="ae-h1 max-w-4xl">
         Security posture, stated plainly.
       </h1>
-      <p className="mt-3 max-w-2xl text-ink-muted">
+      <p className="ae-lede mt-6 max-w-3xl">
         Everything below is a statement about our codebase and infrastructure, with a
         claims-ledger id linking it to the code that makes it true — the same standard
         as every other page here. The last section lists what does not exist yet,
         because a posture you can verify includes the gaps.
       </p>
+        </div>
+        <Photo k="laptopReport2" className="lg:col-span-5" priority />
+      </div>
 
       {SECTIONS.map((section) => (
-        <section key={section.id} aria-labelledby={`${section.id}-title`} className="mt-14">
-          <h2 id={`${section.id}-title`} className="text-xl font-semibold text-ink">
+        <section key={section.id} aria-labelledby={`${section.id}-title`} className="mt-16 md:mt-24">
+          <h2 id={`${section.id}-title`} className="ae-h3">
             {section.title}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-ink-muted">{section.intro}</p>
+          <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-ink-muted">{section.intro}</p>
           <div className="mt-6 grid gap-6 md:grid-cols-3">
             {section.facts.map((fact) => (
-              <div key={fact.title} className="rounded-lg border border-line bg-panel p-5">
-                <h3 className="text-sm font-semibold text-ink">{fact.title}</h3>
+              <div key={fact.title} className="rounded-2xl border border-line bg-panel p-6">
+                <h3 className="text-base font-semibold text-ink-strong">{fact.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-muted">{fact.body}</p>
               </div>
             ))}
@@ -164,14 +170,14 @@ export default function SecurityPage() {
         </section>
       ))}
 
-      <section aria-labelledby="not-yet-title" className="mt-14">
-        <h2 id="not-yet-title" className="text-xl font-semibold text-ink">
+      <section aria-labelledby="not-yet-title" className="mt-16 md:mt-24">
+        <h2 id="not-yet-title" className="ae-h3">
           What doesn&apos;t exist yet
         </h2>
         <div className="mt-6 space-y-4">
           {NOT_YET.map((item) => (
-            <div key={item.title} className="max-w-3xl rounded-lg border border-line bg-panel p-5">
-              <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
+            <div key={item.title} className="max-w-3xl rounded-2xl border border-line bg-panel p-6">
+              <h3 className="text-base font-semibold text-ink-strong">{item.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">{item.body}</p>
             </div>
           ))}
@@ -181,11 +187,11 @@ export default function SecurityPage() {
       <p className="mt-14 max-w-2xl text-sm text-ink-muted">
         How this posture is enforced — the CI gates, the invariants, the full receipts
         table — is on{" "}
-        <Link href="/how-its-built" className="text-up underline underline-offset-2 hover:opacity-80">
+        <Link href="/how-its-built" className="ae-link">
           the engineering page
         </Link>
         . Data rights and retention are in the{" "}
-        <Link href="/legal/privacy" className="text-up underline underline-offset-2 hover:opacity-80">
+        <Link href="/legal/privacy" className="ae-link">
           privacy notice
         </Link>
         .

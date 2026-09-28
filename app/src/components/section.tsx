@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import { WithClaims } from "@/components/claims";
+import { Photo } from "@/components/photo";
+import type { PhotoKey } from "@/lib/photos";
 
 /**
  * The storytelling shell (website/docs/05 §1): eyebrow · headline · lede ·
@@ -10,47 +13,66 @@ import type { ReactNode } from "react";
  * Reveal motion (04 §5) is handled here so pages never hand-roll animation:
  * the inner container carries data-reveal (the <section> itself keeps its
  * borders/background static — chrome doesn't move, content rises).
+ *
+ * `n` numbers the eyebrow ("03 — Risk management"); `photo` sets an
+ * editorial image beside the heading, alternating sides by `n` so a long
+ * page doesn't read as one column of left-aligned text.
  */
 export function Section({
   id,
+  n,
   eyebrow,
   title,
   lede,
+  photo,
   children,
   tone = "default",
 }: {
   id: string;
+  n?: number;
   eyebrow?: string;
   title: string;
   lede?: string;
+  photo?: PhotoKey;
   children?: ReactNode;
   tone?: "default" | "panel";
 }) {
   const headingId = `${id}-title`;
+  const flip = n !== undefined && n % 2 === 0;
+  const head = (
+    <div className="flex max-w-[760px] flex-col gap-5">
+      {eyebrow ? (
+        <p className="ae-eyebrow">
+          {n !== undefined ? `${String(n).padStart(2, "0")} — ` : null}
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2 id={headingId} className="ae-h2">
+        {title}
+      </h2>
+      {lede ? (
+        <p className="ae-lede">
+          <WithClaims text={lede} />
+        </p>
+      ) : null}
+    </div>
+  );
   return (
     <section
       id={id}
       aria-labelledby={headingId}
-      className={tone === "panel" ? "border-y border-line bg-panel" : undefined}
+      className={tone === "panel" ? "border-y border-line bg-sunk" : undefined}
     >
-      <div data-reveal className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-        {eyebrow ? (
-          <p className="text-xs font-medium uppercase tracking-widest text-ink-subtle">
-            {eyebrow}
-          </p>
-        ) : null}
-        <h2
-          id={headingId}
-          className="mt-2 max-w-3xl text-balance text-3xl font-bold tracking-tight text-ink md:text-4xl"
-        >
-          {title}
-        </h2>
-        {lede ? (
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted md:text-lg">
-            {lede}
-          </p>
-        ) : null}
-        {children ? <div className="mt-10">{children}</div> : null}
+      <div data-reveal className="ae-container py-20 md:py-[110px]">
+        {photo ? (
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>{head}</div>
+            <Photo k={photo} className={`lg:col-span-5 ${flip ? "lg:order-1" : ""}`} />
+          </div>
+        ) : (
+          head
+        )}
+        {children ? <div className="mt-12">{children}</div> : null}
       </div>
     </section>
   );

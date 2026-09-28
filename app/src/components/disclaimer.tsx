@@ -29,7 +29,7 @@ export function Disclaimer({ which }: { which: DisclaimerKey }) {
     <p
       data-disclaimer-id={entry.id}
       data-disclaimer-ver={entry.version}
-      className="rounded-md border border-line bg-panel px-4 py-3 text-xs leading-relaxed text-ink-muted"
+      className="rounded-xl border border-line bg-panel/70 px-4 py-3 text-xs leading-relaxed text-ink-subtle"
     >
       {renderDisclaimerText(which)}
     </p>

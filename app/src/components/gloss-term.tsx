@@ -68,7 +68,7 @@ export function GlossTerm({ k }: { k: GlossKey }) {
       {open && (
         <span
           role="status"
-          className={`absolute top-full z-20 mt-1.5 block w-64 rounded-lg border border-line bg-surface p-3 text-left text-xs leading-relaxed text-ink-muted shadow-lg ${alignClass}`}
+          className={`absolute top-full z-20 mt-1.5 block w-64 rounded-2xl border border-line bg-surface p-3 text-left text-xs leading-relaxed text-ink-muted shadow-lg ${alignClass}`}
         >
           <span className="block font-semibold text-ink">{entry.term}</span>
           {entry.def}

@@ -1,7 +1,7 @@
 /**
  * Paise → display rupees, ported from apps/web/src/lib/money.ts (the parsing
  * half stays behind — this site renders money, it never accepts it). Money is
- * integer paise everywhere in AlphaEdge; the divide below is integer math on
+ * integer paise everywhere in Algoryq Trade; the divide below is integer math on
  * the digit string, never a float.
  */
 

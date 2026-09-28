@@ -3,7 +3,7 @@
  * table compares *ways of learning to trade*, not named competitors — naming
  * vendors invites feature-war framing and claims about others we cannot
  * receipt. Category cells are generic descriptions of a pattern; every
- * AlphaEdge cell carries a claims-ledger id, enforced by the component's
+ * Algoryq Trade cell carries a claims-ledger id, enforced by the component's
  * types. Lintable module (REG-03 surface).
  */
 
@@ -34,7 +34,7 @@ export const COMPARISON = {
     "Learning with real money",
     "Tips channels",
     "A typical simulator",
-    "AlphaEdge",
+    "Algoryq Trade",
   ],
   rows: [
     {
@@ -90,6 +90,6 @@ export const COMPARISON = {
   ] satisfies readonly ComparisonRow[],
   footnote:
     "Category columns describe common patterns, not any specific product. Every " +
-    "AlphaEdge cell cites our claims ledger, which maps it to the code and CI checks " +
+    "Algoryq Trade cell cites our claims ledger, which maps it to the code and CI checks " +
     "that keep it true.",
 } as const;

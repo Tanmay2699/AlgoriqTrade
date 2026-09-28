@@ -11,7 +11,7 @@
  * because ids are unique across the site (one homepage owns the act ids).
  */
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -70,6 +70,13 @@ for (const ref of hrefs) {
   const [withoutHash, fragment] = ref.href.split("#");
   const path = withoutHash.split("?")[0].replace(/\/$/, "") || "/";
   if (path.startsWith("/api/")) continue; // endpoints, not pages
+  // Static assets (fonts, images) resolve against public/, and must exist.
+  if (/\.[a-z0-9]+$/i.test(path) && !routes.has(path)) {
+    if (!existsSync(join(APP_DIR, "public", path))) {
+      errors.push(`${ref.file}:${ref.line} links to ${ref.href} — no such file in public/`);
+    }
+    continue;
+  }
   if (!routes.has(path)) {
     errors.push(`${ref.file}:${ref.line} links to ${ref.href} — no such route (known: ${[...routes].sort().join(", ")})`);
     continue;

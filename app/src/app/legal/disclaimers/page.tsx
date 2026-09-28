@@ -5,7 +5,7 @@ import { LegalShell } from "../_shared";
 export const metadata: Metadata = {
   title: "Disclaimers & risk disclosure",
   description:
-    "The canonical AlphaEdge disclaimer registry and standing risk disclosures.",
+    "The canonical Algoryq Trade disclaimer registry and standing risk disclosures.",
 };
 
 /**
@@ -20,11 +20,11 @@ export default function DisclaimersPage() {
   return (
     <LegalShell
       title="Disclaimers & risk disclosure"
-      lede="Every research, simulation and performance surface on AlphaEdge carries one of the disclaimers below, pinned by id and version."
+      lede="Every research, simulation and performance surface on Algoryq Trade carries one of the disclaimers below, pinned by id and version."
     >
       <h2>Standing disclosures</h2>
       <p>
-        Investment in securities markets is subject to market risks. AlphaEdge is a
+        Investment in securities markets is subject to market risks. Algoryq Trade is a
         market-intelligence and paper-trading platform — not a broker, and not (today)
         a SEBI-registered Research Analyst. Research publication requires that
         registration and a human analyst&apos;s approval; until both are in place, no
@@ -41,7 +41,7 @@ export default function DisclaimersPage() {
       </p>
       <dl className="space-y-6">
         {Object.entries(DISCLAIMERS).map(([key, entry]) => (
-          <div key={key} className="rounded-lg border border-line bg-panel p-4">
+          <div key={key} className="rounded-2xl border border-line bg-panel p-5">
             <dt className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span className="font-semibold text-ink">{key}</span>
               <span className="tabular text-xs text-ink-subtle">
