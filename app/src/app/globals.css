@@ -651,33 +651,18 @@ body {
   }
 }
 
-/* Site-wide loading mark: the glass-orb render floats and casts a shadow
-   that breathes opposite it, transform/opacity only. Reduced motion
-   collapses both to the final frame via the blanket rule above. */
-.ae-float {
-  animation: ae-float 3.2s ease-in-out infinite;
+/* Site-wide loading mark: an indeterminate bar sliding under the clip —
+   transform only, no real percentage behind it. Reduced motion collapses it
+   to the final frame via the blanket rule above. */
+.ae-loading-bar {
+  animation: ae-loading-bar 1.4s ease-in-out infinite;
 }
-@keyframes ae-float {
-  0%,
+@keyframes ae-loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
   100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-.ae-shadow-pulse {
-  animation: ae-shadow-pulse 3.2s ease-in-out infinite;
-}
-@keyframes ae-shadow-pulse {
-  0%,
-  100% {
-    transform: translateX(-50%) scaleX(1);
-    opacity: 0.35;
-  }
-  50% {
-    transform: translateX(-50%) scaleX(0.75);
-    opacity: 0.18;
+    transform: translateX(400%);
   }
 }
 
