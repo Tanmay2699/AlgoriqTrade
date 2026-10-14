@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { PageTransitionOverlay } from "@/components/page-transition-overlay";
 import { RumBeacon } from "@/components/rum-beacon";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="ae-skip-link rounded-2xl bg-panel px-3 py-2 text-sm text-ink">
           Skip to content
         </a>
+        <PageTransitionOverlay />
         <SiteNav />
         <main id="main">{children}</main>
         <SiteFooter />
