@@ -651,6 +651,36 @@ body {
   }
 }
 
+/* Site-wide loading mark: the glass-orb render floats and casts a shadow
+   that breathes opposite it, transform/opacity only. Reduced motion
+   collapses both to the final frame via the blanket rule above. */
+.ae-float {
+  animation: ae-float 3.2s ease-in-out infinite;
+}
+@keyframes ae-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.ae-shadow-pulse {
+  animation: ae-shadow-pulse 3.2s ease-in-out infinite;
+}
+@keyframes ae-shadow-pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateX(-50%) scaleX(0.75);
+    opacity: 0.18;
+  }
+}
+
 /* Hero entrance: 12px rise, 70ms stagger. Runs once on load; reduced motion
    collapses it to the final frame via the blanket rule above. */
 .ae-rise {

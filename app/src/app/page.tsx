@@ -158,19 +158,54 @@ export default function HomePage() {
   return (
     <>
       <AppJsonLd />
-      {/* Act 1 — hero. The one h1 on the page. The nav floats over it, so
-          the section pulls up underneath the glass. */}
+      {/* Act 1 — the video hero. The one h1 on the page. Full-bleed trading-
+          floor footage behind a fixed scrim for legible text; the video and
+          gradient are children of the section itself (not of a padded inner
+          box), so they cover the whole negative-margin-extended box and run
+          up behind the nav instead of stopping where the text starts.
+          Hidden below md — the `hidden md:block` is plain CSS, not a mount
+          gate, so phones still issue the byte-range requests; a JS-gated
+          mount was tried and dropped (hero-video.tsx) because the effect
+          wouldn't reliably fire every load, which silently killed the video
+          more often than the bandwidth saving was worth. */}
       <section
         aria-labelledby="hero-title"
-        className="ae-grid-tex relative -mt-[76px] overflow-hidden border-b border-line pt-[76px] md:-mt-[84px] md:pt-[84px]"
+        className="relative -mt-[76px] flex h-[636px] flex-col justify-end overflow-hidden border-b border-line pt-[76px] sm:h-[696px] md:-mt-[84px] md:h-[764px] md:pt-[84px] lg:h-[844px]"
+      >
+        <video
+          aria-hidden="true"
+          autoPlay
+          muted
+          loop
+          playsInline
+          src="/videos/hero-trading-floor.mp4"
+          className="absolute inset-0 -z-10 hidden h-full w-full object-cover md:block"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-[#070b14] via-[#070b14]/55 to-[#070b14]/10 md:via-[#070b14]/45 md:to-transparent"
+        />
+        <div className="ae-container relative pb-10 md:pb-14">
+          <p className="ae-eyebrow ae-rise text-[color:var(--ae-link)]">{HERO.eyebrow}</p>
+          <h1 id="hero-title" className="ae-h1 ae-rise ae-d1 max-w-[780px] !text-white">
+            {HERO.title}{" "}
+            <span className="text-[color:var(--ae-accent-soft-ink)]">{HERO.titleAccent}</span>
+          </h1>
+        </div>
+      </section>
+
+      {/* Act 1b — the terminal pitch. Was the hero; now sits directly under
+          the video band, so it keeps its lede, CTAs and the HeroFrame mock
+          but yields the h1 to the section above. */}
+      <section
+        aria-labelledby="intro-title"
+        className="ae-grid-tex relative overflow-hidden border-b border-line"
       >
         <div className="ae-container grid items-start gap-12 pb-20 pt-12 md:pt-16 lg:grid-cols-[minmax(0,520px)_minmax(0,1fr)] lg:gap-16 lg:pb-24 lg:pt-[88px]">
           <div className="flex flex-col gap-6 md:gap-7 lg:pt-9">
-            <p className="ae-eyebrow ae-rise">{HERO.eyebrow}</p>
-            <h1 id="hero-title" className="ae-h1 ae-rise ae-d1">
-              {HERO.title}{" "}
-              <span className="text-[color:var(--ae-accent-soft-ink)]">{HERO.titleAccent}</span>
-            </h1>
+            <h2 id="intro-title" className="ae-h2 ae-rise">
+              A closer look at the sandbox.
+            </h2>
             <p className="ae-lede ae-rise ae-d2">{HERO.lede}</p>
             <div className="ae-rise ae-d3 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link href={HERO.primaryCta.href} className="ae-btn ae-pulse">
